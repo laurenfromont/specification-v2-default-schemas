@@ -1,0 +1,65 @@
+openapi: 3.0.2
+servers: []
+info:
+  version: "0.1"
+  title: GA4GH Beacon Handover Response Schemas
+  description: >-
+    Handover schemas.
+  contact:
+    email: beacon@ga4gh.org
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+externalDocs:
+  description: |
+    'Beacon Project'
+  url: 'http://beacon-project.io/'
+paths: {}
+components:
+  schemas:
+    HandoverResponse:
+      description: |
+        Definition of the wrapper element for handover data delivery objects.
+      type: object
+      properties:
+          parameters:
+            description: |
+              Parameters used to generate this handover response.
+            type: object
+            example:
+              filters:
+                - NCIT:C3262
+              variantType: SO:0001537
+              referenceName: 17
+              start: 7200000
+              end: 7600000
+          response_type:
+            description: |
+              Type of the objects returned in the "data" part. Typically this
+              would identify a Beacon schema object such as "BeaconVariants" or
+              an external schema such as "Phenopackets".
+            type: string
+            example: Biosamples
+          response_schema:
+            description: |
+              Reference to the data schema of the objects returned in the "data"
+              part. This should be a URI.
+            type: string
+            example: https://schemablocks.org/schemas/sb-phenopackets/current/Phenopacket.json
+          data:
+            description: |
+              The payload wrapper.
+            type: array
+            items: object
+          errors:
+            description: |
+              List of errors encountered during generation of the handover
+              response.
+            type: array
+            items: string
+          warnings:
+            description: |
+              List of warnings generated during generation of the handover
+              response.
+            type: array
+            items: string
