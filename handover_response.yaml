@@ -50,16 +50,19 @@ components:
             description: |
               The payload wrapper.
             type: array
-            items: object
+            items:
+              type: object
           errors:
             description: |
               List of errors encountered during generation of the handover
               response.
             type: array
-            items: string
+            items:
+              type: string
           warnings:
             description: |
               List of warnings generated during generation of the handover
               response.
             type: array
-            items: string
+            items:
+              type: string
