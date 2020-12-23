@@ -52,7 +52,7 @@ components:
         Description of the variant.
       type: object
       properties:
-        chromosome:
+        referenceName:
           $ref: '#/components/schemas/Chromosome'
         referenceBases:
           description: |
