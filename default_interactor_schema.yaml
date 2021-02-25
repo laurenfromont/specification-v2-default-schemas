@@ -20,12 +20,12 @@ externalDocs:
 paths: {}
 components:
   schemas:
-    level_severity:
+    LevelSeverity:
       description: |
         Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”
       type: object
       properties:
-        level_severity:
+        levelSeverity:
           description: |
             Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”
           type: string
@@ -65,8 +65,8 @@ components:
             Stage Qualifier ontology (NCIT:C28108), e.g. acute onset (OGMS:0000119)
           type: string
           example: 'OGMS:0000119'
-        level_severity: #todo '/'' or 'or'
-          $ref: '#/components/schemas/level_severity'
+        levelSeverity: #todo '/'' or 'or'
+          $ref: '#/components/schemas/LevelSeverity'
         outcome:
           description: |
              Outcome of passed acute diseases. Value from TBD, eg. ”fatal”
@@ -80,7 +80,7 @@ components:
             history of the disease.
           type: boolean
           example: True
-    treatments:
+    Treatments:
       description: |
         List of treatment(s) been prescribed/administered to subject, defined by treatment ID), date and age of onset, dose, schedule and duration.
       type: object
@@ -137,7 +137,7 @@ components:
         ageOfOnset:
           $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
         level_severity: #todo '/'' or 'or'
-          $ref: '#/components/schemas/level_severity'
+          $ref: '#/components/schemas/LevelSeverity'
     Interactor:
       description: |
         Todo
