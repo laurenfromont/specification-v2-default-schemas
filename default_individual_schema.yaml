@@ -223,6 +223,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Pedigree'
+        phenotypicFeatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhenotypicFeatures'
+        treatments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Treatments'
+        interventions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interventions'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 
