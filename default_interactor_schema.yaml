@@ -145,22 +145,22 @@ components:
       properties:
         relationType:
           description: |
-            Ontology value for ype of relation with Subject e.g ”host”, ”pathogen”, ”commensal”, etc
+            Ontology value for type of relation with Individual e.g ”host”, ”pathogen”, ”commensal”, etc
           type: string
           example: 'host'
-        subjectId:
+        individualId:
           description: |
-            Subject identifier (external accession or internal ID).
+            Individual identifier (external accession or internal ID).
           type: string
           example: P0001
         taxonId:
           description: |
-            Reference taxon ID for subject organism
+            Reference taxon ID for individual's organism
           type: string
           example: 'human, animal or plant'
         sex:
           description: |
-            Sex of subject.
+            Sex of the individual.
             Value from NCIT General Qualifier (NCIT:C27993) ontology: UNKNOWN 
             (not assessed or not available) (NCIT:C17998), FEMALE (NCIT:C46113), 
             MALE, (NCIT:C46112) or OTHER SEX (NCIT:C45908).
@@ -173,13 +173,13 @@ components:
           example: 'NCIT:C17998'
         ethnicity:
           description: |
-            Ethnic background of subject. Value from NCIT Race ontology 
+            Ethnic background of the individual. Value from NCIT Race ontology 
             (NCIT:C17049), e.g. NCIT:C126531 (Latin American).
           type: string
           example: 'NCIT:C126531'
         geographicOrigin:
           description: |
-            Subject's country or region of origin (birthplace or residence 
+            Individual's country or region of origin (birthplace or residence 
             place regardless of ethnic origin). Value from GAZ Geographic 
             Location ontology (GAZ:00000448), e.g. GAZ:00002459 (United States 
             of America).

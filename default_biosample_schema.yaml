@@ -47,9 +47,9 @@ components:
             Biosample identifier (external accession or internal ID).
           type: string
           example: 'S0001'
-        subjectId:
+        individualId:
           description: |
-            Reference to subject ID (Subject.subjectId).
+            Reference to individual ID (Individual.individualId).
           type: string
           example: 'P0001'
         description:

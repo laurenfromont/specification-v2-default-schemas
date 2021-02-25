@@ -82,9 +82,9 @@ components:
             Reference to run (Run.runId)
           type: string
           example: 'SRR10903401'
-        subjectId:
+        individualId:
           description: |
-            Reference to subject ID (Subject.subjectId).
+            Reference to individual ID (Individual.individualId).
           type: string
           example: 'P0001'
         variantFrequency:
