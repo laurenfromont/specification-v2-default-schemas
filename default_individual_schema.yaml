@@ -20,7 +20,7 @@ externalDocs:
 paths: {}
 components:
   schemas:
-    levelSeverity:
+    LevelSeverity:
       description: |
         Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”
       type: string
@@ -70,7 +70,7 @@ components:
             history of the disease.
           type: boolean
           example: True
-    treatments:
+    Treatments:
       description: |
         List of treatment(s) been prescribed/administered to individual, defined by treatment ID), date and age of onset, dose, schedule and duration.
       type: object
@@ -147,9 +147,9 @@ components:
             Number of individuals in pedigree, including proband.
           type: integer
           format: int64
-            minimum: 0
-            example: 5
-    phenotypicFeatures:
+          minimum: 0
+          example: 5
+    PhenotypicFeatures:
       description: |
         List of phenotypic feature(s) observed in the individual, 
         defined by phenotype, age of onset and level/ severity. 
@@ -223,6 +223,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Pedigree'
+        phenotypicFeatures:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhenotypicFeatures'
+        treatments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Treatments'
+        interventions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interventions'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 
