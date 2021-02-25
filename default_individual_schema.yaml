@@ -147,8 +147,8 @@ components:
             Number of individuals in pedigree, including proband.
           type: integer
           format: int64
-            minimum: 0
-            example: 5
+          minimum: 0
+          example: 5
     phenotypicFeatures:
       description: |
         List of phenotypic feature(s) observed in the individual, 
