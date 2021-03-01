@@ -22,30 +22,20 @@ components:
   schemas:
     LevelSeverity:
       description: |
-        Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”
-      type: object
-      properties:
-        levelSeverity:
-          description: |
-            Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”
-          type: string
-          enum: 
-            - TBD #todo # Source TBD
-          example: 'severe'
-    dateOfOnset:
+        Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”.
+      type: string
+      enum: 
+        - #TBD # Source TBD
+      example: 'severe'
+    DateOfOnset:
       description: |
-        Date of onset/observation of phenotype, in (ISO8601 duration format)
-      type: object
-      properties:
-        dateOfOnset:
-          description: |
-            Date of onset/observation of phenotype, in (ISO8601 duration format)
-          type: string
-          example: 'P3Y6M4DT12H30M5S' ##todo to be confirmed
+        Date of onset/observation of phenotype, in (ISO8601 duration format).
+      type: string
+      example: 'P3Y6M4DT12H30M5S' #TBD to be confirmed
     Disease:
       description: |
-        Lisf of disease(s) been diagnosed to the subject, defined by diseaseID, age of onset, 
-        stage, level/severity, outcome and the presence of family history
+        Lisf of disease(s) been diagnosed to the individual, defined by diseaseID, age of onset, 
+        stage, level of severity, outcome and the presence of family history.
       type: object
       properties:
         diseaseId:
@@ -62,17 +52,17 @@ components:
         stage:
           description: |
             Ontology value from Ontology for General Medical Science or Disease 
-            Stage Qualifier ontology (NCIT:C28108), e.g. acute onset (OGMS:0000119)
+            Stage Qualifier ontology (NCIT:C28108), e.g. acute onset (OGMS:0000119).
           type: string
           example: 'OGMS:0000119'
-        levelSeverity: #todo '/'' or 'or'
+        levelSeverity:
           $ref: '#/components/schemas/LevelSeverity'
         outcome:
           description: |
-             Outcome of passed acute diseases. Value from TBD, eg. ”fatal”
+             Outcome of passed acute diseases. Value from TBD, eg. ”fatal”.
           type: string
           enum:
-            - TBD #todo
+            - TBD #TBD
           example: 'fatal'
         familyHistory:
           description: |
@@ -82,17 +72,64 @@ components:
           example: True
     Treatments:
       description: |
-        List of treatment(s) been prescribed/administered to subject, defined by treatment ID), date and age of onset, dose, schedule and duration.
+        List of treatment(s) been prescribed/administered to individual, defined by treatment ID), date and age of onset, dose, schedule and duration.
       type: object
       properties:
         treatmentId:
           description: |
-            Treatment ID. Value from TBD
+            Treatment ID. Value from TBD.
           type: string
-          example: #todo
+          example: #TBD
+        treatmentRoute:
+          description: Route of treatment. Value from NCIT Route of Administration ontology.
+          type: string
         dateAtOnset:
-          $ref: '#/components/schemas/dateOfOnset'
+          $ref: '#/components/schemas/DateOfOnset'
         ageAtOnset:
+          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
+        dose:
+          description: |
+            Treatment dose
+          type: integer
+          example: #TBD
+        units:
+          description: |
+            Treatment dose units
+          type: string
+          example: #TBD
+        schedule:
+          description: |
+            Treatment dose units
+          type: string
+          enum:
+            - #TBD
+          example: 'weekly'
+        duration:
+          description: |
+            Treatment duration in ISO8601 duration format
+          type: string
+          example: 'P32Y6M1D'
+    Interventions:
+      description: |
+        List of intervention(s) been practiced on subject, 
+        defined by treatment ID, date and age of onset, dose, 
+        schedule and duration.
+      type: object
+      properties:
+        interventionId:
+          description: |
+            Intervention ID. Value from Medical Action Ontology.
+          type: string
+          example: #TDB
+        date:
+          description: |
+            Date of intervention in ISO8601 duration format
+          type: string
+          example: 'P3Y6M4DT12H30M5S' #TBD to be confirmed
+        modifier:
+          description: Modifier of the intervention. Value from TBD.
+          type: string
+        ageAtIntervention:
           $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
     Pedigree:
       description: |
@@ -104,40 +141,90 @@ components:
             Pedigree identifier.
           type: string
           example: 'Pedigree1001'
+        pedigreeDisease:
+          description: |
+            (disease code/ontology term object) Disease ID. Value from ICD10 disease
+            codes or ontology terms from disease ontologies such as HPO, OMIM, Orphanet, MONDO,
+            e.g. “lactose intolerance” (HP:0004789)
+          type: string
+          example: "HP:0004789"
         pedigreeRole:
           description: |
-            Pedigree role, defined as relationship to proband. Value from HL7 
-            code for family relationship or Relationship to Proband ontology 
-            (ERO:0002112), e.g. ERO:0002041 (identical twin relationship).
+            Pedigree role, defined as relation- ship to proband. Value from Family
+            member ontology (NCIT:C41256), e.g. “proband” (NCIT:C64435),
+            "identical twin" (NCIT:C73429), "mother" (NCIT:C25189).
           type: string
           example: 'ERO:0002041'
-        numIndTested:
+        affectedStatus:
           description: |
-            Number of individuals in pedigree, including proband.
+            Affected status of Individual in disease of pedigree: “affected” or “unaffected”.
+          type: string
+          enum:
+            - affected
+            - unaffected
+        numSubjects:
+          description: Number of subjects in pedigree.
           type: integer
-          format: int64
-          minimum: 0
-          example: 5
-    phenotypicFeatures:
+          example: 10
+    PhenotypicFeatures:
       description: |
-        List of phenotypic feature(s) observed in the subject, 
+        List of phenotypic feature(s) observed in the individual, 
         defined by phenotype, age of onset and level/ severity. 
       type: object
       properties:
         phenotypeId:
           description: |
             Phenotypic feature observed. 
-            Value from Human Phenotype Ontology (HPO) or other phenotype ontology.
+            Value from Human Phenotype Ontology (HPO).
           type: string
         dateOfOnset:
           description: |
             Date of onset/observation of phenotype, in (ISO8601 duration format)
           type: string
-          example: 'P3Y6M4DT12H30M5S' ##todo to be confirmed
+          format: date
+          example: '2010-07-10'
+        onsetType:
+          description: Onset type. Value from HPO Onset ontology (HP:0003674), e.g. “congenital onset” (HP:0003577), “adult onset” (HP:0003581).
+          type: string
+          example: "HP:0003674"
         ageOfOnset:
           $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
-        level_severity: #todo '/'' or 'or'
+        levelSeverity:
           $ref: '#/components/schemas/LevelSeverity'
+    Measures:
+      description: Measures(s) been taken from Individual, defined by measure ID, date and/or age at measure ment, unit and value.
+      type: object
+      properties:
+        measureId:
+          description: Measure ID. Value from Clinical Measurement ontology (CMO).
+          type: string
+        modifier:
+          description: Modifier of the measurement. Value from TBD.
+          type: string
+        date:
+          description: Date of intervention.
+          type: string
+          format: date
+        ageAtMeasure:
+          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
+    Exposures:
+      description: |
+        Exposures(s) occurred to or practiced (lifestyle, behavioural exposures) by Individual,
+        defined by exposureID, date and age of onset, dose, schedule and duration.
+      type: object
+      properties:
+        exposureID:
+          description: Exposure ID. Value from Environment Exposure Ontology.
+          type: string
+        modifier:
+          description: Modifier of the exposure. Value from TBD.
+          type: string
+        date:
+          description: Date of the exposure.
+          type: string
+          format: date
+        ageAtExposure:
+          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
     Interactor:
       description: |
         Todo
@@ -153,11 +240,14 @@ components:
             Individual identifier (external accession or internal ID).
           type: string
           example: P0001
+        datasetId:
+          description: Reference to dataset ID.
+          type: string
         taxonId:
           description: |
-            Reference taxon ID for individual's organism
+            Taxon ID of Individual.
           type: string
-          example: 'human, animal or plant'
+          example: '9606'
         sex:
           description: |
             Sex of the individual.
@@ -209,6 +299,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Interventions'
+        measures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Measures'
+        exposures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Exposures'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 
