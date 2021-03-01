@@ -17,51 +17,63 @@ externalDocs:
 paths: {}
 components:
   schemas:
-    ClinicalRelevance:
+    genomicFeatures:
       description: |
-        Descriptor of clinical relevance as described to the variant, including 
-        the variant classification, the disease identifier and references of 
-        studies supporting the association.
+        List of genomic feature(s) affected by the variant
       type: object
       properties:
-        variantClassification:
+        class:
           description: |
-            Value describing the effect of the variant on the disease.
+            Class of genomic region affected by the variant
           type: string
           enum:
-            - benign
-            - likely benign
-            - pathogenic
-            - likely pathogenic
-            - unknown
-          example: pathogenic
-        diseaseId:
+            - gene 
+            - protein coding transcript 
+            - untranslated region 
+            - non-coding transcript
+          example: "gene"
+        featureID:
           description: |
-            Reference to DiseaseId from Disease object from Individual schema, 
-            e.g. MONDO:0003582 (Hereditary breast ovarian cancer syndrome).
+            ID /accession/name of genomic region affected by the variant, matching class in `class`
           type: string
-          example: 'MONDO:0003582'
-        references:
-          description: |
-            List of PUBMED ID(s) of studie(s) describing the variant-disease 
-            association.
-          type: array
-          items:
-            type: string
-          example: 
-            - 'PMC3623669'
-            - 'PMID:27153395'
+          example:
+            - 'TP53'
+            - 'GeneID:43740578'
     VariantAnnotations:
       description: |
         Todo
       type: object
       properties:
+        variantId:
+          description: |
+            ID referencing the variant in beacon (internal ID)
+          type: string
+        variantAlternativeId:
+          description: |
+            List of cross-referencing ID(s) (CURIE(s)) for the variant 
+            in the original databases or variant-level (aggregated) databases for 
+            previously described variants (e.g. clinVarId, ClinGen, COSMIC),
+          type: array
+          items:
+            type: string
+          example: 
+            - 'rs80356868'
+            - 'CA003602'
+            - 'VCV000055583.1'
         genomicHGVSId:
           description: |
             HGVSId descriptor at genomic level, referred to genome assembly 
             defined in Variant Identification.
           type: string
           example: 'NC_000011.9:g.134086816T>C'
+        transcriptHGVSId:
+          description: |
+            List of HGVSId descriptor(s) at transcript level.
+          type: array
+          items:
+            type: string
+          example: 
+            - 'NC 000023.10(NM004006.2):c.357+1G'
         proteinHGVSIds:
           description: |
             List of HGVSId descriptor(s) at protein level (for protein-altering 
@@ -71,52 +83,65 @@ components:
             type: string
           example: 
             - 'NP_009225.1:p.Glu1817Ter'
+            - 'LRG 199p1:p.Val25Gly (preferred)'
+        genomicRegion:
+          description: |
+            List of Classification(s) of the variant according to the genomic 
+            region affected (all that apply). Value from Sequence Ontology (SO) (SO:TBD)
+          type: array
+          items:
+            type: string
+          example: 
+            - 'intergenic'
+            - '5UTR'
+            - '3UTR'
+            - 'coding'
+        GenomicFeature:
+          description: |
+            List of Genomic feature(s) affected by the variant.
+          type: object
+          properties:
+            class:
+              description: |
+                Class of genomic region (Ontology label) affected by the variant
+              type: array
+              items:
+                type: string
+              example: 
+                - 'gene'
+                - 'protein coding transcript'
+                - 'untranslated region'
+                - 'non-coding transcript'
+        annotationToolVersion:
+          description: |
+            Tool used for annotation and prediction of variant effects 
+          type: string
+          example: 'SnpEffVersion=4.3t (build 2017-11-24 1018)'
+        molecularEffect:
+          description: |
+            List of predicted effect at nucleotide level
+          type: array
+          items:
+            type: string
+          example:
+            - 'STOP_GAINED'
         molecularConsequence:
           description: |
-            Ontology value from Sequence Ontology describing the molecular 
-            consequence of the variant for protein-altering variants.
-          type: string
-          example: 'SO:0001583'
-        geneIds:
-          description: |
-            List of HGNC ID(s) for gene(s) affected by the variant.
+            List of Predicted effect at protein level for protein affecting variants (Ontology label)
           type: array
           items:
             type: string
           example: 
-            - 'HGNC:8157'
-        transcriptIds:
+            - 'nonsense'
+            - 'missense'       
+        aminoacidChange:
           description: |
-            List of ENSMEBL ID(s) for transcript(s) affected by the variant.
+            Lisf of change(s) at aminoacid level for protein affecting variants 
           type: array
           items:
             type: string
-          example: 
-            - 'ENST00000277010.9'
-        variantGeneRelationship:
-          description: |
-            Categorical value classifying the variant according to the broadness 
-            of the variant effect in terms of genes: intergenic, 5UTR, 3UTR, 
-            single-gene (exonic, intronic), in overlapping genes (exonic, 
-            intronic), spanning multiple genes, multiple genes
-          type: string
-          example: 'single gene'
-        clinicalRelevance:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClinicalRelevance'
-        variantAternativeIds:
-          description: |
-            List of cross-referencing ID(s) (CURIE(s)) for the variant in the 
-            original databases or variant-level (aggregated) databases for 
-            previously described variants.
-          type: array
-          items:
-            type: string
-          example: 
-            - 'rs80356868'
-            - 'CA003602'
-            - 'VCV000055583.1'
+          example:
+            - 'V304*'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 

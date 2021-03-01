@@ -5,10 +5,16 @@ jdk:
   - oraclejdk11
 env:
   global:
-    - FILE_TO_VALIDATE_VARIANT=default_variant_schema.yaml
-    - FILE_TO_VALIDATE_VARIANT_ANNOT=default_variant_annotations_schema.yaml
+    - FILE_TO_VALIDATE_ANALYSIS=default_analysis_schema.yaml 
     - FILE_TO_VALIDATE_BIOSAMPLE=default_biosample_schema.yaml
+    - FILE_TO_VALIDATE_DATASET=default_dataset_schema.yaml
     - FILE_TO_VALIDATE_INDIVIDUAL=default_individual_schema.yaml
+    - FILE_TO_VALIDATE_INTERACTOR=default_interactor_schema.yaml
+    - FILE_TO_VALIDATE_RUN=default_run_schema.yaml
+    - FILE_TO_VALIDATE_VARIANT_ANNOT=default_variant_annotations_schema.yaml
+    - FILE_TO_VALIDATE_VARIANT=default_variant_identification_schema.yaml    
+    - FILE_TO_VALIDATE_VARIANT_IN_SAMPLE=default_variant_in_sample_schema.yaml
+    - FILE_TO_VALIDATE_VARIANT_INTERPRETATION=default_variant_interpretation_schema.yaml
     - FILE_TO_VALIDATE_COMMON=common.yaml
     - GH_URL=https://raw.githubusercontent.com
     - VALIDATOR_URL=http://validator.swagger.io/validator/debug?url
@@ -16,10 +22,16 @@ env:
 before_install:
   - git clone --branch=v1.1.0 https://github.com/mcupak/oas-validator.git
 script:
-  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT"
-  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT_ANNOT"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_ANALYSIS"
   - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_BIOSAMPLE"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_DATASET"
   - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_INDIVIDUAL"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_INTERACTOR"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_RUN"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT_ANNOT"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT_IN_SAMPLE"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT_INTERPRETATION"
   - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_COMMON"
 
 
