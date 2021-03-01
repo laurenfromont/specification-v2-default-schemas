@@ -1,0 +1,267 @@
+openapi: 3.0.2
+servers: []
+info:
+  version: "draft.3"
+  title: GA4GH Beacon Cohort Default Schema
+  description: >-
+    Schema for cohorts to be used as default by the Beacon.
+  contact:
+    email: beacon@ga4gh.org
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+externalDocs:
+  description: |
+    This object contains info from a set of persons who satisfy one or more
+    inclusion criteria for a duration of time.
+  url: 'http://beacon-project.io/'
+paths: {}
+components:
+  schemas:
+    CollectionEvent:
+      description: TBD # TBD
+      type: object
+      properties:
+        eventNum:
+          description: cardinality of the collection event / data point in a series
+          type: integer
+        eventDate:
+          description: date of collection event/data point
+          type: string
+          format: datetime
+        eventTimeline:
+          description: |
+            Aggregated information of dates of visit/diagnostic/inclusion in study obtained from individual level 
+            info in database. Will coincide with collection event date for multi-time
+          type: object
+          properties:
+            start:
+              description: earliest date of visit
+              type: string
+              format: datetime
+            end:
+              description: latest date of visit
+              type: string
+              format: datetime
+        eventSize:
+          description: |
+            Count of individuals in cohort at data point (for ´user-defined´ cohorts, this is individuals
+            meeting criteria) obtained from individual level info in database.
+          type: integer
+        eventCases:
+          description: count of cases
+          type: integer
+        eventControls:
+          description: count of controls
+          type: integer
+        eventLocations:
+          description: Aggregated information of geographic location obtained from individual level info in database.
+          type: object
+          properties:
+            availability:
+              description: data availability
+              type: boolean
+            availabilityCount:
+              description: count of individuals with data available
+              type: integer
+            distribution:
+              description: TBD # TBD
+              type: array
+              # TBD
+        eventGenders:
+          description: Aggregated information of gender(s) obtained from individual level info in the database.
+          type: object
+          properties:
+            availability:
+              description: data availability
+              type: boolean
+            availabilityCount:
+              description: count of individuals with data available
+              type: integer
+            distribution:
+              description: TBD # TBD
+              type: array
+              # TBD
+        eventEthnicities:
+          description: Aggregated information of ethnicity obtained from individual level info in database.
+          type: object
+          properties:
+            availability:
+              description: data availability
+              type: boolean
+            availabilityCount:
+              description: count of individuals with data available
+              type: integer
+            distribution:
+              description: TBD # TBD
+              type: array
+              # TBD
+        eventAgeRange:
+          description: Individual age range, obtained from individual level info in database.
+          type: object
+          properties:
+            start:
+              description: min age in collection event
+              type: string
+              format: datetime
+            end:
+              description: max age in collection event
+              type: string
+              format: datetime
+        eventDiseases:
+          description: Aggregated information of disease/condition(s) obtained from individual level info in the database.
+          type: object
+          properties:
+            availability:
+              description: data availability
+              type: boolean
+            availabilityCount:
+              description: count of individuals with data available
+              type: integer
+            distribution:
+              description: TBD # TBD
+              type: array
+              # TBD
+        eventPhenotypes:
+          description: Aggregated information of phenotype(s) obtained from individual level info in the database.
+          type: object
+          properties:
+            availability:
+              description: data availability
+              type: boolean
+            availabilityCount:
+              description: count of individuals with data available
+              type: integer
+            distribution:
+              description: TBD # TBD
+              type: array
+              # TBD
+        eventDataTypes:
+          description: Aggregated data type information available for each cohort data type as declared in cohort_data types, and obtained from individual level info.
+          type: object
+          properties:
+            availability:
+              description: data availability
+              type: boolean
+            availabilityCount:
+              description: count of individuals with data available
+              type: integer
+            distribution:
+              description: TBD # TBD
+              type: array
+              # TBD
+    Cohort:
+      description: |
+        Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”
+      type: object
+      properties:
+        cohortType:
+          description: |
+            Cohort type by its definition. If a cohort is declared ´study-defined´ or ´beacon-defined´, 
+            criteria are to be entered in cohort_inclusion_criteria; if a cohort is declared ‘user-defined’
+            cohort_inclusion_criteria could be automatically populated from the parameters used to perform the query.
+          type: string
+          enum:
+            - study-defined
+            - beacon-defined
+            - user-defined
+        cohortDesign:
+          description: Cohort type by its design.
+          type: string
+          enum:
+            - TBD # TBD
+        cohortId:
+          description: |
+            Cohort identifier. For ´study-defined´ or ´beacon-defined´cohorts this field is set by the implementer.
+            For ´user-defined´ this unique identifier could be generated upon the query that defined the cohort,
+            but could be later edited by the user.
+          type: string
+        cohortName:
+          description: |
+            For ´user-defined´ this field could be generated upon the query, e.g. a value that is a concatenation
+            or some representation of the user query.
+          type: string
+        cohortInclusionCriteria:
+          description: |
+            None or any number of these criteria can be filled. (For ´beacon-defined´cohorts, cohorts matching 
+            the whole dataset wont apply criteria for if cohorts are subsets of Datasets the criteria used to
+            defined them can be added in these fields)
+          type: object
+          properties:
+            cohortLocations:
+              description: Geographic location(s) in cohort inclusion criteria
+              type: string
+            cohortGenders:
+              description: Gender(s) in cohort inclusion criteria
+              type: string
+            cohortConditions:
+              description: Condition(s) in cohort inclusion criteria
+              type: string
+            cohortAgeRange:
+              description: Individual age range in cohort inclusion criteria
+              type: object
+              properties:
+                start:
+                  description: min age accepted in cohort criteria.
+                  type: string
+                  format: datetime
+                end:
+                  description: max age accepted in cohort criteria.
+                  type: string
+                  format: datetime
+        cohortExclusionCriteria:
+          description: TBD # TBD
+          type: object
+          properties:
+            cohortLocations:
+              description: Geographic location(s) in cohort inclusion criteria
+              type: string
+            cohortGenders:
+              description: Gender(s) in cohort inclusion criteria
+              type: string
+            cohortConditions:
+              description: Condition(s) in cohort inclusion criteria
+              type: string
+            cohortAgeRange:
+              description: Individual age range in cohort inclusion criteria
+              type: object
+              properties:
+                start:
+                  description: min age accepted in cohort criteria.
+                  type: string
+                  format: datetime
+                end:
+                  description: max age accepted in cohort criteria.
+                  type: string
+                  format: datetime
+        cohortLicense:
+          description: TBD # TBD
+          type: array
+          items:
+            type: string
+        cohortContact:
+          description: TBD # TBD
+          type: string
+        cohortRights:
+          description: TBD # TBD
+          type: array
+          items:
+            type: string
+        cohortSize:
+          description: |
+            Count of unique Individuals in cohort (individuals meeting criteria for ´user-defined´ cohorts).
+            If not previously known, it could be calculated by counting the individuals in the cohort.
+          type: integer
+        cohortDataTypes:
+          description: TBD # TBD
+          type: array
+          items:
+            type: string
+            enum:
+              - data
+              - num
+        collectionEvents:
+          description: TBD # TBD
+          type: array
+          items:
+            $ref: '#/components/schemas/CollectionEvent'
