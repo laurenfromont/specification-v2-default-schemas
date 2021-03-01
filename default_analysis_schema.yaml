@@ -22,37 +22,37 @@ components:
         Todo
       type: object
       properties:
-        runId: ##todo check this. and analysisID?
+        analysisId:
+          description: Analysis reference ID (external accession or internal ID)
+          type: string
+        runId:
           description: |
             Run identifier (external accession or internal ID).
           type: string
           example: 'SRR10903401'
-        variantId: #todo check this
-          description: |
-            Date at which run was performed, in (ISO8601 duration format)
+        analysisDate:
+          description: Date at which analysis was performed.
           type: string
-          example: 'P3Y6M4DT12H30M5S' ##todo to be confirmed
+          format: date
         pipelineName:
           description: |
-            Analysis pipeline and version if a standardized pipeline was used #todo why categorical?
+            Analysis pipeline and version if a standardized pipeline was used
           type: string
-          example: '' #todo provide example
         pipelineRef:
           description: |
             Link to Analysis pipeline resource
           type: string
-          example: '' #todo provide example
         aligner:
           description: |
-            Ontology value for Mapping/Alignment software #todo define Ontology name?
+            Ontology value for Mapping/Alignment software
           type: string
-          example: 'bwa'
+          example: 'bwa-0.7.8'
         variantCaller:
           description: |
-            Ontology value Variant calling software/ pipeline e.g ”GATK vxxx” #todo add Ontology name?
+            Ontology value Variant calling software / pipeline
           type: string
           example:
-            - 'GATK vxxx'
+            - 'GATK4.0'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 
