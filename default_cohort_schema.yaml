@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "0.1"
+  version: "draft.3"
   title: GA4GH Beacon Cohort Default Schema
   description: >-
     Schema for cohorts to be used as default by the Beacon.
