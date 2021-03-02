@@ -3,8 +3,13 @@ servers: []
 info:
   version: "draft.3"
   title: GA4GH Beacon Interactor Default Schema
-  description: >-
+  description: |
     Schema for interactor to be used as default by the Beacon.
+    
+    This object contains info related to the subject from where the variants are found in a study. 
+    It includes taxon id and any other relevant information about it, including maybe links or id 
+    of genome assemblies and ref seqs associated to this species that are available in the Beacon 
+    and that are used for variant identification (location)
   contact:
     email: beacon@ga4gh.org
   license:
@@ -12,10 +17,7 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 externalDocs:
   description: |
-    This object contains info related to the subject from where the variants are found in a study. 
-    It includes taxon id and any other relevant information about it, including maybe links or id 
-    of genome assemblies and ref seqs associated to this species that are available in the Beacon 
-    and that are used for variant identification (location)
+    Beacon project
   url: 'http://beacon-project.io/'
 paths: {}
 components:
@@ -70,7 +72,7 @@ components:
             history of the disease.
           type: boolean
           example: True
-    Treatments:
+    Treatment:
       description: |
         List of treatment(s) been prescribed/administered to individual, defined by treatment ID), date and age of onset, dose, schedule and duration.
       type: object
@@ -109,7 +111,7 @@ components:
             Treatment duration in ISO8601 duration format
           type: string
           example: 'P32Y6M1D'
-    Interventions:
+    Intervention:
       description: |
         List of intervention(s) been practiced on subject, 
         defined by treatment ID, date and age of onset, dose, 
@@ -166,7 +168,7 @@ components:
           description: Number of subjects in pedigree.
           type: integer
           example: 10
-    PhenotypicFeatures:
+    PhenotypicFeature:
       description: |
         List of phenotypic feature(s) observed in the individual, 
         defined by phenotype, age of onset and level/ severity. 
@@ -191,7 +193,7 @@ components:
           $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
         levelSeverity:
           $ref: '#/components/schemas/LevelSeverity'
-    Measures:
+    Measure:
       description: Measures(s) been taken from Individual, defined by measure ID, date and/or age at measure ment, unit and value.
       type: object
       properties:
@@ -207,7 +209,7 @@ components:
           format: date
         ageAtMeasure:
           $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
-    Exposures:
+    Exposure:
       description: |
         Exposures(s) occurred to or practiced (lifestyle, behavioural exposures) by Individual,
         defined by exposureID, date and age of onset, dose, schedule and duration.
@@ -290,23 +292,23 @@ components:
         phenotypicFeatures:
           type: array
           items:
-            $ref: '#/components/schemas/PhenotypicFeatures'
+            $ref: '#/components/schemas/PhenotypicFeature'
         treatments:
           type: array
           items:
-            $ref: '#/components/schemas/Treatments'
+            $ref: '#/components/schemas/Treatment'
         interventions:
           type: array
           items:
-            $ref: '#/components/schemas/Interventions'
+            $ref: '#/components/schemas/Intervention'
         measures:
           type: array
           items:
-            $ref: '#/components/schemas/Measures'
+            $ref: '#/components/schemas/Measure'
         exposures:
           type: array
           items:
-            $ref: '#/components/schemas/Exposures'
+            $ref: '#/components/schemas/Exposure'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 

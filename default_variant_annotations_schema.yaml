@@ -12,12 +12,12 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 externalDocs:
   description: |
-    'Beacon Project'
+    Beacon Project
   url: 'http://beacon-project.io/'
 paths: {}
 components:
   schemas:
-    GenomicFeatures:
+    GenomicFeature:
       description: |
         Genomic feature(s) affected by the variant
       type: object
@@ -39,7 +39,7 @@ components:
           example:
             - 'TP53'
             - 'GeneID:43740578'
-    VariantAnnotations:
+    VariantAnnotation:
       description: TBD # TBD
       type: object
       properties:
@@ -101,7 +101,7 @@ components:
             List of Genomic feature(s) affected by the variant.
           type: array
           items:
-            $ref: '#/components/schemas/GenomicFeatures'
+            $ref: '#/components/schemas/GenomicFeature'
         annotationToolVersion:
           description: |
             Tool used for annotation and prediction of variant effects 
