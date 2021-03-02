@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.2"
+  version: "draft.3"
   title: GA4GH Beacon Biosample Default Schema
   description: >-
     Schema for biosamples to be used as default by the Beacon.
@@ -76,33 +76,27 @@ components:
             duration format `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
           type: string
           example: 'P32Y6M1D'
-        IndividualAgeAtCollection:
+        individualAgeAtCollection:
           description: |
-            Individual’s age at the time of sample collection 
+            Individual's age at the time of sample collection 
             in the ISO8601 duration format `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
           type: string
           example: 'P32Y6M1D'
         sampleOriginType:
           description: |
-            Ontology value for category of sample origin #todo add Ontology name
-            e.g ”organism primary tissue”, ”organism xenograft”, 
-            ”organism-derived fluid”, ”cell culture”, ”environmental sample”
+            Category of sample origin. Value from Ontology for Biomedical Investigations (OBI)
+            material entity (BFO:0000040) ontology, e.g. "specimen from organism" (OBI:0001479),
+            "xenograft" (OBI:0100058), "cell culture" (OBI:0001876), "cell specimen" (OBI:0001468),
+            "environmental swab specimen" (OBI:0002613).
           type: string
-          enum:
-            - 'organism primary tissue'
-            - 'organism xenograft'
-            - 'organism-derived fluid'
-            - 'cell culture'
-            - 'environmental sample'
-          example: 'organism primary tissue'
         sampleOriginDetail:
           description: |
-            Ontology value from Uber-anatomy ontology (UBERON) or BRENDA tissue / enzyme source (BTO).
-            Specific instance of sample origin matching the category set in sampleOriginType e.g ”HEK293T”, ”nasopharynx”
+            Specific instance of sample origin matching the category set in sampleOriginType.
+            Value from Uber-anatomy ontology (UBERON) or BRENDA tissue / enzyme source (BTO),
+            Ontology for Biomedical Investigations (OBI) or Cell Line Ontology (CLO), e.g. 
+            "cerebellar vermis" (UBERON:0004720), "HEK-293T cell" (BTO:0002181), 
+            "nasopharyngeal swab specimen" (OBI:0002606), "cerebrospinal fluid specimen" (OBI:0002502).
           type: string
-          example:
-            - 'HEK293T'
-            - 'nasopharynx'
         obtentionProcedure:
           description: |
             Ontology value from NCIT Intervention or Procedure ontology 

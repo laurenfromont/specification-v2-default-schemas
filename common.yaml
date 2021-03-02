@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.2"
+  version: "draft.3"
   title: GA4GH Beacon Common Default Schemas
   description: >-
     Common schemas used by the default schemas.

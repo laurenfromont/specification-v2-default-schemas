@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.2"
+  version: "draft.3"
   title: GA4GH Beacon Dataset Default Schema
   description: >-
     Schema for datasets to be used as default by the Beacon.
@@ -37,6 +37,9 @@ components:
           description: |
             Dataset type: variant-level (aggregated) or case-level
           type: string
-          example:  
+          enum:
+            - variant-level
+            - case-level
+          example:
             - 'variant-level (aggregated)'
             - 'case-level'

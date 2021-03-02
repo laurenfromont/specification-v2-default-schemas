@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.2"
+  version: "draft.3"
   title: GA4GH Beacon Run Default Schema
   description: >-
     Schema for runs to be used as default by the Beacon.
@@ -24,37 +24,38 @@ components:
       properties:
         runId:
           description: |
-            Run identifier (external accession or internal ID).
+            Run reference ID (external accession or internal ID).
           type: string
           example: 'SRR10903401'
         biosampleId:
           description: |
-            Reference to sample ID (Biosample.biosampleId).
+            Reference to Biosample ID (Biosample.biosampleId).
           type: string
           example: 'S0001'
-        variantId: #todo check this
-          description: |
-            Date at which run was performed, in (ISO8601 duration format)
+        runDate:
+          description: Date at which run was performed.
           type: string
-          example: 'P3Y6M4DT12H30M5S' ##todo to be confirmed
+          format: date
         librarySource:
           description: |
-            Ontology value for sequencing library source e.g ”Metagenomic”, ”Viral RNA” #todo add Ontology name?
+            Ontology value for sequencing library source e.g "Metagenomic", "Viral RNA"
           type: string
           example:
             - 'Metagenomic'
             - 'Viral RNA'
         librarySelection:
           description: |
-            Ontology value for selection method for sequencing library 
-            preparation e.g ”RANDOM”, ”RT-PCR” #todo add Ontology name?
+            Selection method for sequencing library preparation, e.g "RANDOM", "RT-PCR"
           type: string
           example:
             - 'RANDOM'
             - 'RT-PCR'
+        libraryStrategy:
+          description: Sequencing library strategy, e.g. "WGS"
+          type: string
         libraryLayout:
           description: |
-            Ontology value for sequencing library layout e.g ”PAIRED”, ”SINGLE” #todo add Ontology name?
+            Ontology value for sequencing library layout e.g "PAIRED", "SINGLE" #todo add Ontology name?
           type: string
           enum:
             - 'PAIRED'
@@ -62,18 +63,12 @@ components:
           example: 'SINGLE'
         platform:
           description: |
-            Ontology value for sequencing platform group e.g ”Illumina”, ”Nanopore” #todo add Ontology name?
+            Ontology value for sequencing technology, e.g. "Illumina", "Oxford Nanopore Technologies"
           type: string
-          example:
-            - 'Illumina'
-            - 'Nanopore'
         platformModel:
           description: |
-            Ontology value for sequencing platform model e.g ”Illumina MiSeq”, ”GridION” #todo add Ontology name?
+            Ontology value for sequencing platform model e.g "Illumina MiSeq", "GridION"
           type: string
-          example:
-            - 'Illumina MiSeq'
-            - 'GridION'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 
