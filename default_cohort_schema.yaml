@@ -3,8 +3,11 @@ servers: []
 info:
   version: "draft.3"
   title: GA4GH Beacon Cohort Default Schema
-  description: >-
+  description: |
     Schema for cohorts to be used as default by the Beacon.
+
+    This object contains info from a set of persons who satisfy one or more
+    inclusion criteria for a duration of time.
   contact:
     email: beacon@ga4gh.org
   license:
@@ -12,8 +15,7 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 externalDocs:
   description: |
-    This object contains info from a set of persons who satisfy one or more
-    inclusion criteria for a duration of time.
+    Beacon project
   url: 'http://beacon-project.io/'
 paths: {}
 components:
@@ -67,7 +69,8 @@ components:
             distribution:
               description: TBD # TBD
               type: array
-              # TBD
+              items:
+                type: integer
         eventGenders:
           description: Aggregated information of gender(s) obtained from individual level info in the database.
           type: object
@@ -81,7 +84,8 @@ components:
             distribution:
               description: TBD # TBD
               type: array
-              # TBD
+              items:
+                type: integer
         eventEthnicities:
           description: Aggregated information of ethnicity obtained from individual level info in database.
           type: object
@@ -95,7 +99,8 @@ components:
             distribution:
               description: TBD # TBD
               type: array
-              # TBD
+              items:
+                type: integer
         eventAgeRange:
           description: Individual age range, obtained from individual level info in database.
           type: object
@@ -121,7 +126,8 @@ components:
             distribution:
               description: TBD # TBD
               type: array
-              # TBD
+              items:
+                type: integer
         eventPhenotypes:
           description: Aggregated information of phenotype(s) obtained from individual level info in the database.
           type: object
@@ -135,7 +141,8 @@ components:
             distribution:
               description: TBD # TBD
               type: array
-              # TBD
+              items:
+                type: integer
         eventDataTypes:
           description: Aggregated data type information available for each cohort data type as declared in cohort_data types, and obtained from individual level info.
           type: object
@@ -149,7 +156,8 @@ components:
             distribution:
               description: TBD # TBD
               type: array
-              # TBD
+              items:
+                type: integer
     Cohort:
       description: |
         Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g "mild"
