@@ -15,6 +15,7 @@ env:
     - FILE_TO_VALIDATE_VARIANT=default_variant_identification_schema.yaml    
     - FILE_TO_VALIDATE_VARIANT_IN_SAMPLE=default_variant_in_sample_schema.yaml
     - FILE_TO_VALIDATE_VARIANT_INTERPRETATION=default_variant_interpretation_schema.yaml
+    - FILE_TO_VALIDATE_COHORT=default_cohort_schema.yaml
     - FILE_TO_VALIDATE_COMMON=common.yaml
     - GH_URL=https://raw.githubusercontent.com
     - VALIDATOR_URL=http://validator.swagger.io/validator/debug?url
@@ -32,6 +33,7 @@ script:
   - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT"
   - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT_IN_SAMPLE"
   - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_VARIANT_INTERPRETATION"
+  - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_COHORT"
   - ./oas-validator/validate.sh "$URL_TO_VALIDATE/$FILE_TO_VALIDATE_COMMON"
 
 
