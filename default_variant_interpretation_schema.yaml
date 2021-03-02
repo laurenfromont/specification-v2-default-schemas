@@ -30,9 +30,11 @@ components:
             e.g. MONDO:0003582 (Hereditary breast ovarian cancer syndrome).
           type: string
           example: 'MONDO:0003582'
-        clinicalEffect: ##todo copy from avriant annotation schema?
+        clinicalEffect: ##todo copy from variant annotation schema?
           description: |
-            Value describing the effect of the variant on the disease.
+            Clinical effect classification. Value from Sequence types and 
+            features ontology (SO) variant phenotype (SO:0001769), 
+            e.g. “disease associated variant” (SO:0001771).
           type: string
           enum:
             - benign
@@ -115,7 +117,7 @@ components:
       properties:
         variantId:
           description: |
-            ID referencing the variant in beacon (internal ID) ##todo check?
+            Reference to Variant ID
           type: string
         datasetId:
           description: |
