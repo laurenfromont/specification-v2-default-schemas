@@ -34,6 +34,15 @@ components:
         count:
           type: integer
           minimum: 0
+      example:
+        - type:
+            id: "HANCESTRO:0005"
+            label: "European"
+          count: 3999
+        - type:
+            id: "HANCESTRO:0008"
+            label: "Asian"
+          count: 456
     CollectionEvent:
       description: TBD # TBD
       type: object
