@@ -20,6 +20,20 @@ externalDocs:
 paths: {}
 components:
   schemas:
+    Distribution:
+      description: TBD # TBD
+      type: object
+      properties:
+        type:
+          type: object
+          properties:
+            id:
+              type: string
+            label:
+              type: string
+        count:
+          type: integer
+          minimum: 0
     CollectionEvent:
       description: TBD # TBD
       type: object
@@ -70,7 +84,7 @@ components:
               description: TBD # TBD
               type: array
               items:
-                type: integer
+                $ref: '#/components/schemas/Distribution'
         eventGenders:
           description: Aggregated information of gender(s) obtained from individual level info in the database.
           type: object
@@ -85,7 +99,7 @@ components:
               description: TBD # TBD
               type: array
               items:
-                type: integer
+                $ref: '#/components/schemas/Distribution'
         eventEthnicities:
           description: Aggregated information of ethnicity obtained from individual level info in database.
           type: object
@@ -100,7 +114,7 @@ components:
               description: TBD # TBD
               type: array
               items:
-                type: integer
+                $ref: '#/components/schemas/Distribution'
         eventAgeRange:
           description: Individual age range, obtained from individual level info in database.
           type: object
@@ -127,7 +141,7 @@ components:
               description: TBD # TBD
               type: array
               items:
-                type: integer
+                $ref: '#/components/schemas/Distribution'
         eventPhenotypes:
           description: Aggregated information of phenotype(s) obtained from individual level info in the database.
           type: object
@@ -142,7 +156,7 @@ components:
               description: TBD # TBD
               type: array
               items:
-                type: integer
+                $ref: '#/components/schemas/Distribution'
         eventDataTypes:
           description: Aggregated data type information available for each cohort data type as declared in cohort_data types, and obtained from individual level info.
           type: object
@@ -157,7 +171,7 @@ components:
               description: TBD # TBD
               type: array
               items:
-                type: integer
+                $ref: '#/components/schemas/Distribution'
     Cohort:
       description: |
         Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g "mild"
