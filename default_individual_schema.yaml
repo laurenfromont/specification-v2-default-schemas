@@ -22,7 +22,7 @@ components:
   schemas:
     LevelSeverity:
       description: |
-        Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”.
+        Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g "mild".
       type: string
       enum: 
         - #TBD # Source TBD
@@ -59,7 +59,7 @@ components:
           $ref: '#/components/schemas/LevelSeverity'
         outcome:
           description: |
-             Outcome of passed acute diseases. Value from TBD, eg. ”fatal”.
+             Outcome of passed acute diseases. Value from TBD, eg. "fatal".
           type: string
           enum:
             - TBD #TBD
@@ -145,19 +145,19 @@ components:
           description: |
             (disease code/ontology term object) Disease ID. Value from ICD10 disease
             codes or ontology terms from disease ontologies such as HPO, OMIM, Orphanet, MONDO,
-            e.g. “lactose intolerance” (HP:0004789)
+            e.g. "lactose intolerance" (HP:0004789)
           type: string
           example: "HP:0004789"
         pedigreeRole:
           description: |
-            Pedigree role, defined as relation- ship to proband. Value from Family
-            member ontology (NCIT:C41256), e.g. “proband” (NCIT:C64435),
+            Pedigree role, defined as relationship to proband. Value from Family
+            member ontology (NCIT:C41256), e.g. "proband" (NCIT:C64435),
             "identical twin" (NCIT:C73429), "mother" (NCIT:C25189).
           type: string
           example: 'ERO:0002041'
         affectedStatus:
           description: |
-            Affected status of Individual in disease of pedigree: “affected” or “unaffected”.
+            Affected status of Individual in disease of pedigree: "affected" or "unaffected".
           type: string
           enum:
             - affected
@@ -184,7 +184,7 @@ components:
           format: date
           example: '2010-07-10'
         onsetType:
-          description: Onset type. Value from HPO Onset ontology (HP:0003674), e.g. “congenital onset” (HP:0003577), “adult onset” (HP:0003581).
+          description: Onset type. Value from HPO Onset ontology (HP:0003674), e.g. "congenital onset" (HP:0003577), "adult onset" (HP:0003581).
           type: string
           example: "HP:0003674"
         ageOfOnset:

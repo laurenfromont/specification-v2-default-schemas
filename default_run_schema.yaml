@@ -38,24 +38,24 @@ components:
           format: date
         librarySource:
           description: |
-            Ontology value for sequencing library source e.g ”Metagenomic”, ”Viral RNA”
+            Ontology value for sequencing library source e.g "Metagenomic", "Viral RNA"
           type: string
           example:
             - 'Metagenomic'
             - 'Viral RNA'
         librarySelection:
           description: |
-            Selection method for sequencing library preparation, e.g ”RANDOM”, ”RT-PCR”
+            Selection method for sequencing library preparation, e.g "RANDOM", "RT-PCR"
           type: string
           example:
             - 'RANDOM'
             - 'RT-PCR'
         libraryStrategy:
-          description: Sequencing library strategy, e.g. “WGS”
+          description: Sequencing library strategy, e.g. "WGS"
           type: string
         libraryLayout:
           description: |
-            Ontology value for sequencing library layout e.g ”PAIRED”, ”SINGLE” #todo add Ontology name?
+            Ontology value for sequencing library layout e.g "PAIRED", "SINGLE" #todo add Ontology name?
           type: string
           enum:
             - 'PAIRED'
@@ -63,11 +63,11 @@ components:
           example: 'SINGLE'
         platform:
           description: |
-            Ontology value for sequencing technology, e.g. “Illumina”, “Oxford Nanopore Technologies”
+            Ontology value for sequencing technology, e.g. "Illumina", "Oxford Nanopore Technologies"
           type: string
         platformModel:
           description: |
-            Ontology value for sequencing platform model e.g ”Illumina MiSeq”, ”GridION”
+            Ontology value for sequencing platform model e.g "Illumina MiSeq", "GridION"
           type: string
         info:
           description: |

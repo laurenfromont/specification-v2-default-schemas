@@ -27,7 +27,7 @@ components:
         clinicalEffect: ##todo copy from variant annotation schema?
           description: |
             Value from Sequence types and features ontology (SO) variant 
-            phenotype (SO:0001769), e.g. “disease causing variant” (SO:0001772).
+            phenotype (SO:0001769), e.g. "disease causing variant" (SO:0001772).
           type: string
           enum:
             - benign
@@ -97,15 +97,15 @@ components:
         zigosity:
           description: |
             Ontology value for zigosity in which variant is present in the sample 
-            from the Zigosity Ontology (GENO:0000133) , e.g ”heterozygous” (GENO:0000135)
+            from the Zigosity Ontology (GENO:0000133) , e.g "heterozygous" (GENO:0000135)
           type: string
           example: 'GENO:0000135'
         alleleOrigin:
           description: |
             Ontology value for allele origin of variant in sample from the Variant Origin (SO:0001762). 
-            Categories are ”somatic variant”, ”germline variant”, ”maternal variant”, 
-            ”paternal variant”, ”de novo variant”, ”pedigree specific variant”, 
-            ”population specific variant”. 
+            Categories are "somatic variant", "germline variant", "maternal variant", 
+            "paternal variant", "de novo variant", "pedigree specific variant", 
+            "population specific variant". 
             Corresponds to Variant Inheritance in FHIR.
           type: string
           enum:

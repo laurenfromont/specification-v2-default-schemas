@@ -34,7 +34,7 @@ components:
           description: |
             Clinical effect classification. Value from Sequence types and 
             features ontology (SO) variant phenotype (SO:0001769), 
-            e.g. “disease associated variant” (SO:0001771).
+            e.g. "disease associated variant" (SO:0001771).
           type: string
           enum:
             - benign
@@ -46,9 +46,9 @@ components:
         alleleOrigin:
           description: |
             Ontology value for allele origin of variant in sample from the Variant Origin (SO:0001762). 
-            Categories are ”somatic variant”, ”germline variant”, ”maternal variant”, 
-            ”paternal variant”, ”de novo variant”, ”pedigree specific variant”, 
-            ”population specific variant”. Corresponds to Variant Inheritance in FHIR.
+            Categories are "somatic variant", "germline variant", "maternal variant", 
+            "paternal variant", "de novo variant", "pedigree specific variant", 
+            "population specific variant". Corresponds to Variant Inheritance in FHIR.
           type: string
           enum:
             - 'somatic variant'
@@ -87,9 +87,9 @@ components:
         alleleOrigin:
           description: |
             Ontology value for allele origin of variant in sample from the Variant Origin (SO:0001762). 
-            Categories are ”somatic variant”, ”germline variant”, ”maternal variant”, 
-            ”paternal variant”, ”de novo variant”, ”pedigree specific variant”, 
-            ”population specific variant”. Corresponds to Variant Inheritance in FHIR.
+            Categories are "somatic variant", "germline variant", "maternal variant", 
+            "paternal variant", "de novo variant", "pedigree specific variant", 
+            "population specific variant". Corresponds to Variant Inheritance in FHIR.
           type: string
           enum:
             - 'somatic variant'

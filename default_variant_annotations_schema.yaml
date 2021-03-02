@@ -51,7 +51,7 @@ components:
           description: |
             List of cross-referencing ID(s) (CURIE(s)) for the variant in the original
             databases or variant-level (aggregated) databases for previously described
-            variants (e.g. clinVarId, ClinGen, COSMIC), e.g. “VCV000055583.1”, “CA003602”.
+            variants (e.g. clinVarId, ClinGen, COSMIC), e.g. "VCV000055583.1", "CA003602".
           type: array
           items:
             type: string
