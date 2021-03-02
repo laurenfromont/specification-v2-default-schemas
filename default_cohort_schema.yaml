@@ -152,13 +152,13 @@ components:
               # TBD
     Cohort:
       description: |
-        Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g ”mild”
+        Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g "mild"
       type: object
       properties:
         cohortType:
           description: |
             Cohort type by its definition. If a cohort is declared ´study-defined´ or ´beacon-defined´, 
-            criteria are to be entered in cohort_inclusion_criteria; if a cohort is declared ‘user-defined’
+            criteria are to be entered in cohort_inclusion_criteria; if a cohort is declared ‘user-defined'
             cohort_inclusion_criteria could be automatically populated from the parameters used to perform the query.
           type: string
           enum:

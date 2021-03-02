@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "0.1"
+  version: "draft.3"
   title: GA4GH Beacon Variant Annotation Default Schema
   description: >-
     Schema for variant annotations to be used as default by the Beacon.
@@ -17,9 +17,9 @@ externalDocs:
 paths: {}
 components:
   schemas:
-    genomicFeatures:
+    GenomicFeatures:
       description: |
-        List of genomic feature(s) affected by the variant
+        Genomic feature(s) affected by the variant
       type: object
       properties:
         class:
@@ -40,19 +40,18 @@ components:
             - 'TP53'
             - 'GeneID:43740578'
     VariantAnnotations:
-      description: |
-        Todo
+      description: TBD # TBD
       type: object
       properties:
         variantId:
           description: |
-            ID referencing the variant in beacon (internal ID)
+            Reference to Variant ID.
           type: string
         variantAlternativeId:
           description: |
-            List of cross-referencing ID(s) (CURIE(s)) for the variant 
-            in the original databases or variant-level (aggregated) databases for 
-            previously described variants (e.g. clinVarId, ClinGen, COSMIC),
+            List of cross-referencing ID(s) (CURIE(s)) for the variant in the original
+            databases or variant-level (aggregated) databases for previously described
+            variants (e.g. clinVarId, ClinGen, COSMIC), e.g. "VCV000055583.1", "CA003602".
           type: array
           items:
             type: string
@@ -84,10 +83,11 @@ components:
           example: 
             - 'NP_009225.1:p.Glu1817Ter'
             - 'LRG 199p1:p.Val25Gly (preferred)'
-        genomicRegion:
+        genomicRegions:
           description: |
-            List of Classification(s) of the variant according to the genomic 
-            region affected (all that apply). Value from Sequence Ontology (SO) (SO:TBD)
+            List of classification(s) of the variant according to the genomic 
+            region affected (all that apply, relative to each feature affected). Value from Ensembl
+            Glossary (ENSGLOSS)
           type: array
           items:
             type: string
@@ -96,22 +96,12 @@ components:
             - '5UTR'
             - '3UTR'
             - 'coding'
-        GenomicFeature:
+        genomicFeatures:
           description: |
             List of Genomic feature(s) affected by the variant.
-          type: object
-          properties:
-            class:
-              description: |
-                Class of genomic region (Ontology label) affected by the variant
-              type: array
-              items:
-                type: string
-              example: 
-                - 'gene'
-                - 'protein coding transcript'
-                - 'untranslated region'
-                - 'non-coding transcript'
+          type: array
+          items:
+            $ref: '#/components/schemas/GenomicFeatures'
         annotationToolVersion:
           description: |
             Tool used for annotation and prediction of variant effects 

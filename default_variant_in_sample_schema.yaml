@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "0.1"
+  version: "draft.3"
   title: GA4GH Beacon Variant in Sample Default Schema
   description: >-
     Schema for variant in sample to be used as default by the Beacon.
@@ -24,9 +24,10 @@ components:
         studies supporting the association.
       type: object
       properties:
-        clinicalEffect: ##todo copy from avriant annotation schema?
+        clinicalEffect: ##todo copy from variant annotation schema?
           description: |
-            Value describing the effect of the variant on the disease.
+            Value from Sequence types and features ontology (SO) variant 
+            phenotype (SO:0001769), e.g. "disease causing variant" (SO:0001772).
           type: string
           enum:
             - benign
@@ -82,11 +83,10 @@ components:
             Reference to run (Run.runId)
           type: string
           example: 'SRR10903401'
-        individualId:
+        biosampleId:
           description: |
-            Reference to individual ID (Individual.individualId).
+            Reference to biosample ID.
           type: string
-          example: 'P0001'
         variantFrequency:
           description: |
             Variant frequency in sample, as in AF field in VCF for case-level datasets.
@@ -97,15 +97,15 @@ components:
         zigosity:
           description: |
             Ontology value for zigosity in which variant is present in the sample 
-            from the Zigosity Ontology (GENO:0000133) , e.g ”heterozygous” (GENO:0000135)
+            from the Zigosity Ontology (GENO:0000133) , e.g "heterozygous" (GENO:0000135)
           type: string
-          example: 'heterozygous'
+          example: 'GENO:0000135'
         alleleOrigin:
           description: |
             Ontology value for allele origin of variant in sample from the Variant Origin (SO:0001762). 
-            Categories are ”somatic variant”, ”germline variant”, ”maternal variant”, 
-            ”paternal variant”, ”de novo variant”, ”pedigree specific variant”, 
-            ”population specific variant”. 
+            Categories are "somatic variant", "germline variant", "maternal variant", 
+            "paternal variant", "de novo variant", "pedigree specific variant", 
+            "population specific variant". 
             Corresponds to Variant Inheritance in FHIR.
           type: string
           enum:
