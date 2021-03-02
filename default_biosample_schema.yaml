@@ -12,12 +12,12 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 externalDocs:
   description: |
-    'Beacon Project'
+    Beacon Project
   url: 'http://beacon-project.io/'
 paths: {}
 components:
   schemas:
-    CancerFeatures:
+    CancerFeature:
       description: |
         Values specifying cancer-specific features, including progression and 
         tumor grade.
@@ -105,7 +105,7 @@ components:
           type: string
           example: 'NCIT:C15189'
         cancerFeatures:
-          $ref: '#/components/schemas/CancerFeatures'
+          $ref: '#/components/schemas/CancerFeature'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 

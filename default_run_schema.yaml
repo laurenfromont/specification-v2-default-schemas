@@ -12,7 +12,7 @@ info:
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 externalDocs:
   description: |
-    'Beacon Project'
+    Beacon Project
   url: 'http://beacon-project.io/'
 paths: {}
 components:
