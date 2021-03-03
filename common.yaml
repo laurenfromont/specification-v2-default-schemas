@@ -34,3 +34,10 @@ components:
             Age group value, from NCIT Age Group ontology.
           type: string
           example: 'NCIT:C27954 (Adolescent)'
+    OntologyTerm:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
