@@ -220,14 +220,25 @@ components:
           type: object
           properties:
             cohortLocations:
-              description: Geographic location(s) in cohort inclusion criteria
-              type: string
+              allOf:
+              - description: Geographic location(s) in cohort inclusion criteria
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
             cohortGenders:
-              description: Gender(s) in cohort inclusion criteria
-              type: string
-            cohortConditions:
-              description: Condition(s) in cohort inclusion criteria
-              type: string
+              allOf:
+              - description: Gender(s) in cohort inclusion criteria
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            cohortEthnicities:
+              allOf:
+              - description: Ethnicity(ies) in cohort inclusion criteria.
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            cohortDiseases:
+              allOf:
+              - description: Disease(s) in cohort inclusion criteria.
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            cohortPhenotypicFeatures:
+              allOf:
+              - description: Phenotypic feature(s) in cohort inclusion criteria
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
             cohortAgeRange:
               description: Individual age range in cohort inclusion criteria
               type: object
@@ -235,36 +246,43 @@ components:
                 start:
                   description: min age accepted in cohort criteria.
                   type: string
-                  format: datetime
                 end:
                   description: max age accepted in cohort criteria.
                   type: string
-                  format: datetime
         cohortExclusionCriteria:
           description: TBD # TBD
           type: object
           properties:
             cohortLocations:
-              description: Geographic location(s) in cohort inclusion criteria
-              type: string
+              allOf:
+              - description: Geographic location(s) in cohort exclusion criteria.
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
             cohortGenders:
-              description: Gender(s) in cohort inclusion criteria
-              type: string
-            cohortConditions:
-              description: Condition(s) in cohort inclusion criteria
-              type: string
+              allOf:
+              - description: Gender(s) in cohort exclusion criteria.
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            cohortEthnicities:
+              allOf:
+              - description: Ethnicity(ies) in cohort exclusion criteria.
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            cohortDiseases:
+              allOf:
+              - description: Disease(s) in cohort exclusion criteria.
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            cohortPhenotypicFeatures:
+              allOf:
+              - description: Phenotypic feature(s) in cohort exclusion criteria.
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
             cohortAgeRange:
-              description: Individual age range in cohort inclusion criteria
+              description: Individual age range in cohort exclusion criteria.
               type: object
               properties:
                 start:
                   description: min age accepted in cohort criteria.
                   type: string
-                  format: datetime
                 end:
                   description: max age accepted in cohort criteria.
                   type: string
-                  format: datetime
         cohortLicense:
           description: TBD # TBD
           type: array
