@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Common Default Schemas
   description: >-
     Common schemas used by the default schemas.
@@ -30,10 +30,13 @@ components:
           type: string
           example: 'P32Y6M1D'
         ageGroup:
-          description: |
-            Age group value, from NCIT Age Group ontology.
-          type: string
-          example: 'NCIT:C27954 (Adolescent)'
+          allOf:
+            - description: |
+                Age group value, from NCIT Age Group ontology.
+            - $ref: '#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'NCIT:C27954'
+                label: adolescent
     OntologyTerm:
       type: object
       properties:
