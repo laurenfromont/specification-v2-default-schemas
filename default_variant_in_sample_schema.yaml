@@ -124,7 +124,7 @@ components:
         phenotypicEffect:
           type: array
           items:
-            $ref: '#/components/schemas/phenotypicEffect'
+            $ref: '#/components/schemas/PhenotypicEffect'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 
