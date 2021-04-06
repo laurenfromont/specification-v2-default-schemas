@@ -246,7 +246,7 @@ components:
                 Onset type. Value from HPO Onset ontology (HP:0003674), 
                 e.g. "congenital onset" (HP:0003577), "adult onset" (HP:0003581).
             - $ref: 'common.yaml#/components/schemas/OntologyTerm'
-            - example: :
+            - example:
                 id: 'HP:0003577'
                 label: 'congenital onset'
         ageAtOnset:
