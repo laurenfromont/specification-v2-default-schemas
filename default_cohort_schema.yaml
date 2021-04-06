@@ -202,7 +202,7 @@ components:
             - $ref: '#/components/schemas/Event'
     Cohort:
       description: |
-        Todo
+        TBD
       type: object
       properties:
         cohortId:

@@ -19,7 +19,7 @@ components:
   schemas:
     Analysis:
       description: |
-        Todo
+        TBD
       type: object
       required:
         - analysisId

@@ -46,7 +46,7 @@ components:
                 label: Grade 3
     Biosample:
       description: |
-        Todo
+        TBD
       type: object
       required:
         - biosampleId

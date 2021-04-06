@@ -20,7 +20,7 @@ components:
     Interactor:
       allOf:
         - description: |
-            Todo
+            TBD
         - type: object
           required:
             - interactorId
