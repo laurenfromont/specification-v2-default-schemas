@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Variant Identification Default Schema
   description: >-
     Schema for variant identifications to be used as default by the Beacon.
@@ -19,8 +19,10 @@ components:
   schemas:
     VariantIdentification:
       description: |
-        Todo
+        TBD
       type: object
+      required:
+        - variantId
       properties:
         variantId:
           description: |
@@ -28,9 +30,10 @@ components:
           type: string
         assemblyId:
           description: |
-            Genomic assembly accession and version as RefSqeq assembly accession (e.g. "GCG 000001405.39")
-            or a versioned assembly name or synonym such as UCSC Genome Browser assembly (e.g. "hg38") or
-            Genome Reference consortium Human (e.g. "GRCh38.p13") names.
+            Genomic assembly accession and version as RefSqeq assembly accession 
+            (e.g. "GCG 000001405.39") or a versioned assembly name or synonym 
+            such as UCSC Genome Browser assembly (e.g. hg38) or Genome 
+            Reference consortium Human (e.g. GRCh38.p13) names.
           type: string
           example: 
             - 'GCG 000001405.39'
@@ -38,12 +41,15 @@ components:
             - 'GRCh38.p13'
         refseqId:
           description: |
-            Reference sequence Refseq ID and version for genomic reference sequence in which
-            variant coordinates are given, e.g. "NC 000009" for human chromosome 9.
-            Alternatively, names, synonymous or aliases e.g. "Chr9" when
-            assemblyId is given. For organisms with a single reference sequence covering the genome,
-            the versioned Refseq ID can be given here as an alternative to the assembly ID and
-            version in assemblyId, e.g. "NC 045512.2" for SARS-CoV2 full-length genome reference sequence.
+            Reference sequence Refseq ID and version for genomic reference 
+            sequence in which variant coordinates are given, e.g. NC 000009 for 
+            human chromosome 9.
+            
+            Alternatively, names, synonymous or aliases e.g. Chr9 when 
+            assemblyId is given. For organisms with a single reference sequence 
+            covering the genome, the versioned Refseq ID can be given here as an 
+            alternative to the assembly ID and version in assemblyId, e.g. 
+            NC 045512.2 for SARS-CoV2 full-length genome reference sequence.
           type: string
           example: 
             - 'NC 000009'
@@ -72,11 +78,14 @@ components:
           type: string
           pattern: '^([ACGTN]+)$'
         variantType:
-          description: |
-            (ontology term object) Type of variant. Value from Sequence Ontology
-            e.g. "SNV" (SO:0001483), "structural variant" (SO:0001537).
-          type: string
-          example: SO:0001483
+          allOf:
+            - description: |
+                Type of variant. Value from Sequence Ontology e.g. SNV 
+                (SO:0001483), structural variant (SO:0001537).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: SO:0001483
+                label: SNV
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 

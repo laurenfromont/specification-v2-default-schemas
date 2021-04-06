@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Variant in Sample Default Schema
   description: >-
     Schema for variant in sample to be used as default by the Beacon.
@@ -19,68 +19,90 @@ components:
   schemas:
     ClinicalRelevance: 
       description: |
-        Descriptor of clinical relevance as described to the variant, including 
-        the variant classification, the disease identifier and references of 
-        studies supporting the association.
+        List of observed effect(s) of variant on disease.
       type: object
+      required:
+        - diseaseId
       properties:
-        clinicalEffect: ##todo copy from variant annotation schema?
-          description: |
-            Value from Sequence types and features ontology (SO) variant 
-            phenotype (SO:0001769), e.g. "disease causing variant" (SO:0001772).
-          type: string
-          enum:
-            - benign
-            - likely benign
-            - pathogenic
-            - likely pathogenic
-            - unknown
-          example: pathogenic
         diseaseId:
-          description: |
-            Reference to DiseaseId from Disease object from Individual schema, 
-            e.g. MONDO:0003582 (Hereditary breast ovarian cancer syndrome).
-          type: string
-          example: 'MONDO:0003582'
+          allOf:
+            - description: |
+                Descriptor of disease associated. Value from ICD10 disease codes 
+                or ontology terms from disease ontologies such as HPO, OMIM, 
+                Orphanet, MONDO, e.g. lactose intolerance (HP:0004789).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'HP:0004789'
+                label: 'lactose intolerance'
+        clinicalEffect:
+          allOf:
+            - description: |
+                Clinical effect classification.  Value from Sequence types and 
+                features ontology (SO)  variant  phenotype  (SO:0001769),  e.g. 
+                disease causing variant (SO:0001772).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'SO:0001772'
+                label: 'disease causing variant'
         evidenceType:
-          description: |
-            Ontology value for type of evidence supporting variant-disease 
-            association from the Evidence & Conclusion Ontology (ECO)
-          type: string
-          example: 'experimental evidence'
+          allOf:
+            - description: |
+                Ontology value for type of evidence supporting variant-disease 
+                association from the Evidence & Conclusion Ontology (ECO), e.g. 
+                experimental evidence.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'ECO:0000006'
+                label: 'experimental evidence'
     PhenotypicEffect:
       description: |
-        List of annotated effect on disease.
+        List of observed effect(s) of variant on phenotype.
       type: object
+      required:
+        - phenotypeId
       properties:
         phenotypeId:
-          description: |
-            Descriptor of phenotype found associated in this study
-          type: string
-          example: "" ##todo provide example
+          allOf:
+            - description: |
+                Descriptor of phenotype found associated to variant in the present 
+                study. Value from Human Phenotype Ontology (HPO).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         phenotypeEffect:
-          description: |
-            Ontology value for phenotypic effect classification determined in this study
-          type: string
-          example: '' ##todo example?
+          allOf:
+            - description: |
+                Phenotypic effect classification determined in the present 
+                study. Value from Sequence types  and  features  ontology  (SO) 
+                variant phenotype (SO:0001769), e.g. quantitative variant
+                (SO:0001774).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'SO:0001774'
+                label: 'quantitative variant'
         evidenceType:
-          description: |
-            Ontology value for type of evidence supporting variant-disease 
-            association from the Evidence & Conclusion Ontology (ECO)
-          type: string
-          example: 'experimental evidence'
+          allOf:
+            - description: |
+                Type of evidence supporting variant-phenotype association from 
+                the Evidence & Conclusion Ontology (ECO), e.g. experimental 
+                evidence.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'ECO:0000006'
+                label: 'experimental evidence'
     VariantInSample:
       description: |
-        Todo
+        TBD
       type: object
+      required:
+        - variantId
+        - biosampleId
       properties:
         variantId:
           description: |
-            ID referencing the variant in beacon (internal ID) ##todo check?
+            Reference to variant ID.
           type: string
         analysisId:
           description: |
-            Reference to run (Run.runId)
+            Reference to analysis ID.
           type: string
           example: 'SRR10903401'
         biosampleId:
@@ -89,42 +111,38 @@ components:
           type: string
         variantFrequency:
           description: |
-            Variant frequency in sample, as in AF field in VCF for case-level datasets.
-            Frequency in dataset for aggregated variant-level datasets.
+            Variant/allele frequency in biosample.
           type: number
           minimum: 0
           example: 1
         zigosity:
-          description: |
-            Ontology value for zigosity in which variant is present in the sample 
-            from the Zigosity Ontology (GENO:0000133) , e.g "heterozygous" (GENO:0000135)
-          type: string
-          example: 'GENO:0000135'
+          allOf:
+            - description: |
+                Zigosity in which variant is present in the sample. Value from 
+                the  Zigosity Ontology (GENO:0000133), e.g. heterozygous 
+                (GENO:0000135).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'GENO:0000135'
+                label: 'heterozygous'
         alleleOrigin:
-          description: |
-            Ontology value for allele origin of variant in sample from the Variant Origin (SO:0001762). 
-            Categories are "somatic variant", "germline variant", "maternal variant", 
-            "paternal variant", "de novo variant", "pedigree specific variant", 
-            "population specific variant". 
-            Corresponds to Variant Inheritance in FHIR.
-          type: string
-          enum:
-            - 'somatic variant'
-            - 'germline variant'
-            - 'maternal variant'
-            - 'paternal variant'
-            - 'de novo variant'
-            - 'pedigree specific variant'
-            - 'population specific variant'
-          example: 'somatic variant'
-        clinicalRelevance:
+          allOf:
+            - description: |
+                Allele origin of variant in sample. Value from the Variant 
+                Origin (SO:0001762), e.g. somatic variant, germline variant, 
+                de novo variant.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'SO:0001778'
+                label: 'germline variant'
+        clinicalRelevances:
           type: array
           items:
             $ref: '#/components/schemas/ClinicalRelevance'
-        phenotypicEffect:
+        phenotypicEffects:
           type: array
           items:
-            $ref: '#/components/schemas/phenotypicEffect'
+            $ref: '#/components/schemas/PhenotypicEffect'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 

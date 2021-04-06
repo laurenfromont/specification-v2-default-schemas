@@ -1,15 +1,16 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Individual Default Schema
   description: |
     Schema for individuals to be used as default by the Beacon.
     
-    This object contains info related to the individual from where the variants are found in a study. 
-    It includes taxon id and any other relevant information about it, including maybe links or id 
-    of genome assemblies and ref seqs associated to this species that are available in the Beacon 
-    and that are used for variant identification (location)
+    This object contains info related to the individual from where the variants 
+    are found in a study. It includes taxon id and any other relevant 
+    information about it, including maybe links or id of genome assemblies and 
+    ref seqs associated to this species that are available in the Beacon and 
+    that are used for variant identification (location).
   contact:
     email: beacon@ga4gh.org
   license:
@@ -22,50 +23,65 @@ externalDocs:
 paths: {}
 components:
   schemas:
-    LevelSeverity:
-      description: |
-        Level/severity ontology when and as applicable to phenotype observed. Value from TBD, e.g "mild".
-      type: string
-      enum: 
-        - #TBD # Source TBD
-      example: 'severe'
-    DateOfOnset:
-      description: |
-        Date of onset/observation of phenotype, in (ISO8601 duration format).
-      type: string
-      example: 'P3Y6M4DT12H30M5S' #TBD to be confirmed
     Disease:
       description: |
-        Lisf of disease(s) been diagnosed to the individual, defined by diseaseID, age of onset, 
-        stage, level of severity, outcome and the presence of family history.
+        List of disease(s) been diagnosed to the individual, defined by 
+        disease ICD10 code, optionally other disease ontology ID(s), age of 
+        onset, stage and the presence of family history.
       type: object
+      required:
+        - diseaseId
       properties:
         diseaseId:
+          allOf:
+            - description: |
+                Disease identifier. Value from ICD10 disease codes or ontology 
+                terms from disease ontologies such as HPO, OMIM, Orphanet, 
+                MONDO, e.g. lactose intolerance (HP:0004789, ICD10CM:E73).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'HP:0004789'
+                label: lactose intolerance
+        dateOfOnset:
           description: |
-            Disease identifier. Value from ICD10 disease codes or ontology terms 
-            from disease ontologies such as HPO, OMIM, Orphanet, MONDO, e.g. 
-            lactose intolerance (HP:0004789, ICD10CM:E73).
+            Date of onset/diagnosis of disease, in ISO8601 date format.
           type: string
-          example:
-            - 'HP:0004789'
-            - 'ICD10CM:E73'
+          format: date
+          example: '1987-10-28'
+        onsetType:
+          allOf:
+            - description: |
+                Value from HPO Onset ontology (HP:0003674), e.g. congenital 
+                onset (HP:0003577), adult onset (HP:0003581).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: HP:0003581
+                label: adult onset
         ageOfOnset:
-          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
+          allOf:
+            - description: |
+                Individual's age at onset/diagnosis of disease.
+            - $ref: 'common.yaml#/components/schemas/Age'
         stage:
-          description: |
-            Ontology value from Ontology for General Medical Science or Disease 
-            Stage Qualifier ontology (NCIT:C28108), e.g. acute onset (OGMS:0000119).
-          type: string
-          example: 'OGMS:0000119'
+          allOf:
+            - description: |
+                Value from Ontology for General Medical Science or Disease Stage 
+                Qualifier ontology (NCIT:C28108), e.g. acute onset 
+                (OGMS:0000119).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'OGMS:0000119'
+                label: 'acute onset'
         levelSeverity:
-          $ref: '#/components/schemas/LevelSeverity'
-        outcome:
-          description: |
-             Outcome of passed acute diseases. Value from TBD, eg. "fatal".
-          type: string
-          enum:
-            - TBD #TBD
-          example: 'fatal'
+          allOf:
+            - description: |
+                Level/severity when and as applicable to disease course. 
+                Value from Human Phenotype Ontology (HPO) Severity ontology 
+                (HP:0012824), e.g. “mild” (HP:0012825)
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'HP:0012825'
+                label: 'mild'
         familyHistory:
           description: |
             Boolean indicating determined or self-reported presence of family 
@@ -74,92 +90,128 @@ components:
           example: True
     Treatment:
       description: |
-        List of treatment(s) been prescribed/administered to individual, defined by treatment ID), date and age of onset, dose, schedule and duration.
+        List of treatment(s) or medication(s) been prescribed/administered to 
+        individual, defined by treatment ID, date and age of onset, dose, 
+        schedule and duration.
       type: object
+      required:
+        - treatmentId
       properties:
         treatmentId:
-          description: |
-            Treatment ID. Value from TBD.
-          type: string
-          example: #TBD
+          allOf:
+            - description: |
+                Treatment ID. Value from NCIT Drug, Food, Chemical or Biomedical 
+                Material.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         treatmentRoute:
-          description: Route of treatment. Value from NCIT Route of Administration ontology.
-          type: string
-        dateAtOnset:
-          $ref: '#/components/schemas/DateOfOnset'
-        ageAtOnset:
-          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
-        dose:
+          allOf:
+            - description: |
+                Route of treatment. Value from NCIT Route of Administration 
+                ontology.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+        treatmentStartDate:
           description: |
-            Treatment dose
-          type: integer
-          example: #TBD
-        units:
-          description: |
-            Treatment dose units
+            Date of the beginning of treatment.
           type: string
-          example: #TBD
+          example: 'P3Y6M4DT12H30M5S'
+        ageAtTreatment:
+          allOf:
+            - description: |
+                Individual's age at the beginning of treatment.
+            - $ref: 'common.yaml#/components/schemas/Age'
+        treatmentDose:
+          description: |
+            Treatment dose.
+          type: object
+          properties:
+            doseValue:
+              description: |
+                Quantity value of Dose.
+              type: number
+            doseUnits:
+              allOf:
+                - description: |
+                    Treatment dose units. Value from Units of measurement 
+                    Ontology (UO).
+                - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         schedule:
-          description: |
-            Treatment dose units
-          type: string
-          enum:
-            - #TBD
-          example: 'weekly'
+          allOf:
+            - description: |
+                Treatment schedule. Value from NCIT Schedule Frequency ontology, 
+                e.g weekly (NCIT:C67069).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'NCIT:C67069'
+                label: 'weekly'
         duration:
           description: |
-            Treatment duration in ISO8601 duration format
+            Treatment duration in ISO8601 duration format 
+            `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
           type: string
           example: 'P32Y6M1D'
     Intervention:
       description: |
-        List of intervention(s) been practiced on subject, 
-        defined by treatment ID, date and age of onset, dose, 
-        schedule and duration.
+         Intervention(s) been practiced on Individual, defined by intervention 
+         ID, date and age of onset, dose, schedule and duration.
       type: object
+      required:
+        - interventionId
       properties:
         interventionId:
-          description: |
-            Intervention ID. Value from Medical Action Ontology.
-          type: string
-          example: #TDB
-        date:
-          description: |
-            Date of intervention in ISO8601 duration format
-          type: string
-          example: 'P3Y6M4DT12H30M5S' #TBD to be confirmed
+          allOf:
+            - description: |
+                Intervention ID. Value from Medical Action Ontology or code from 
+                OPCS Classifications of Interventions and Procedures.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         modifier:
           description: Modifier of the intervention. Value from TBD.
           type: string
+        interventionDate:
+          description: |
+            Date of intervention in ISO8601 date format.
+          type: string
+          example: '2020-05-03'
         ageAtIntervention:
-          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
+          allOf:
+            - description: |
+                Individual’s age at the date of intervention.
+            - $ref: 'common.yaml#/components/schemas/Age'
     Pedigree:
       description: |
-        Pedigree studie(s) in which the individual is part of.
+        Pedigree(s) to which the Individual belongs.
       type: object
+      required:
+        - pedigreeId
       properties:
-        pedigreeID:
+        pedigreeId:
           description: |
-            Pedigree identifier.
+            Reference to pedigree ID.
           type: string
           example: 'Pedigree1001'
         pedigreeDisease:
-          description: |
-            (disease code/ontology term object) Disease ID. Value from ICD10 disease
-            codes or ontology terms from disease ontologies such as HPO, OMIM, Orphanet, MONDO,
-            e.g. "lactose intolerance" (HP:0004789)
-          type: string
-          example: "HP:0004789"
+          allOf:
+            - description: |
+                Disease ID. Value from ICD10 disease codes or ontology terms 
+                from disease ontologies such as HPO, OMIM, Orphanet, MONDO, e.g. 
+                lactose intolerance (HP:0004789).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'HP:0004789'
+                label: lactose intolerance
         pedigreeRole:
-          description: |
-            Pedigree role, defined as relationship to proband. Value from Family
-            member ontology (NCIT:C41256), e.g. "proband" (NCIT:C64435),
-            "identical twin" (NCIT:C73429), "mother" (NCIT:C25189).
-          type: string
-          example: 'ERO:0002041'
+          allOf:
+            - description: |
+                Pedigree role, defined as relationship to proband. Value from 
+                Family member ontology (NCIT:C41256), e.g. proband (NCIT:C64435), 
+                identical twin (NCIT:C73429), mother (NCIT:C25189).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'NCIT:C25189'
+                label: mother
         affectedStatus:
           description: |
-            Affected status of Individual in disease of pedigree: "affected" or "unaffected".
+            Affected status of Individual in disease of pedigree: "affected" or 
+            "unaffected".
           type: string
           enum:
             - affected
@@ -173,64 +225,139 @@ components:
         List of phenotypic feature(s) observed in the individual, 
         defined by phenotype, age of onset and level/ severity. 
       type: object
+      required:
+        - phenotypeId
       properties:
         phenotypeId:
-          description: |
-            Phenotypic feature observed. 
-            Value from Human Phenotype Ontology (HPO).
-          type: string
+          allOf:
+            - description: |
+                Phenotypic feature observed. Value from Human Phenotype Ontology 
+                (HPO).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         dateOfOnset:
           description: |
-            Date of onset/observation of phenotype, in (ISO8601 duration format)
+            Date of onset/observation of phenotype, in ISO8601 date format.
           type: string
           format: date
           example: '2010-07-10'
         onsetType:
-          description: Onset type. Value from HPO Onset ontology (HP:0003674), e.g. "congenital onset" (HP:0003577), "adult onset" (HP:0003581).
-          type: string
-          example: "HP:0003674"
-        ageOfOnset:
-          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
+          allOf:
+            - description: |
+                Onset type. Value from HPO Onset ontology (HP:0003674), 
+                e.g. "congenital onset" (HP:0003577), "adult onset" (HP:0003581).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: :
+                id: 'HP:0003577'
+                label: 'congenital onset'
+        ageAtOnset:
+          allOf:
+            - description: |
+                Individual's age at onset/observation of phenotype.
+            - $ref: 'common.yaml#/components/schemas/Age'
         levelSeverity:
-          $ref: '#/components/schemas/LevelSeverity'
+          allOf:
+            - description: |
+                Level/severity when and as applicable to phenotype observed. 
+                Value from Human Phenotype Ontology (HPO) Severity ontology 
+                (HP:0012824), e.g. “severe” (HP:0012828)
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'HP:0012828'
+                label: 'severe'
     Measure:
-      description: Measures(s) been taken from Individual, defined by measure ID, date and/or age at measure ment, unit and value.
+      description: |
+        Measures(s) been taken from Individual, defined by measure ID, date 
+        and/or age at measure ment, unit and value.
       type: object
+      required:
+        - measureId
       properties:
         measureId:
-          description: Measure ID. Value from Clinical Measurement ontology (CMO).
-          type: string
+          allOf:
+            - description: |
+                Measure ID. Value from Clinical Measurement ontology (CMO).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+        measureQuantity:
+          description: |
+            TBD
+          type: object
+          properties:
+            measureValue:
+              description: |
+                 Quantity value of measurement.
+              type: number
+            measureUnit:
+              allOf:
+                - description: |
+                    Measure units.
+                - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         modifier:
           description: Modifier of the measurement. Value from TBD.
           type: string
-        date:
-          description: Date of intervention.
+        measureDate:
+          description: Date of measurement, ISO8601 date format.
           type: string
           format: date
         ageAtMeasure:
-          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
+          allOf:
+            - description: |
+                Individual's age at the date of measurement.
+            - $ref: 'common.yaml#/components/schemas/Age'
     Exposure:
       description: |
-        Exposures(s) occurred to or practiced (lifestyle, behavioural exposures) by Individual,
-        defined by exposureID, date and age of onset, dose, schedule and duration.
+        Exposures(s) occurred to or practiced (lifestyle, behavioural exposures) 
+        by Individual, defined by exposureID, date and age of onset, dose, 
+        schedule and duration.
       type: object
+      required:
+        - exposureId
       properties:
-        exposureID:
-          description: Exposure ID. Value from Environment Exposure Ontology.
-          type: string
+        exposureId:
+          allOf:
+            - description: |
+                Exposure ID. Value from Environment Exposure Ontology.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+        exposureDose:
+          description: |
+            Exposure dose.
+          type: object
+          properties:
+              exposureValue:
+                description: |
+                  Quantity value of exposure.
+                type: number
+              exposureUnit:
+                allOf:
+                  - description: |
+                      Exposure units
+                  - $ref: 'common.yaml#/components/schemas/OntologyTerm'   
         modifier:
-          description: Modifier of the exposure. Value from TBD.
+          description: |
+            Modifier of the exposure. Value from TBD.
           type: string
-        date:
-          description: Date of the exposure.
+        exposureDate:
+          description: |
+            Date of the exposure, in ISO8601 date format.
           type: string
           format: date
+          example: '2020-03-17'
         ageAtExposure:
-          $ref: 'https://raw.githubusercontent.com/ga4gh-beacon/specification-v2-default-schemas/master/common.yaml#/components/schemas/Age'
+          allOf:
+            - description: |
+                Individual's age at the date of exposure.
+            - $ref: 'common.yaml#/components/schemas/Age'
+        duration:
+          description: |
+            Exposure duration in ISO8601 duration format 
+            `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
+          type: string
+          example: 'P32Y6M1D'
     Individual:
       description: |
-        #TBD
+        TBD
       type: object
+      required:
+        - individualId
       properties:
         individualId:
           description: |
@@ -246,37 +373,37 @@ components:
           type: string
           example: '9606'
         sex:
-          description: |
-            Sex of the individual.
-            Value from NCIT General Qualifier (NCIT:C27993) ontology: UNKNOWN 
-            (not assessed or not available) (NCIT:C17998), FEMALE (NCIT:C46113), 
-            MALE, (NCIT:C46112) or OTHER SEX (NCIT:C45908).
-          type: string
-          enum: 
-            - NCIT:C17998
-            - NCIT:C46113
-            - NCIT:C46112
-            - NCIT:C45908
-          example: 'NCIT:C17998'
+          allOf:
+            - description: |
+                Sex of the individual.
+                Value from NCIT General Qualifier (NCIT:C27993) ontology: 
+                UNKNOWN (not assessed or not available) (NCIT:C17998), FEMALE 
+                (NCIT:C46113), MALE, (NCIT:C46112) or OTHER SEX (NCIT:C45908).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: NCIT:C17998
+                label: UNKNOWN
         ethnicity:
-          description: |
-            Ethnic background of the individual. Value from NCIT Race ontology 
-            (NCIT:C17049), e.g. NCIT:C126531 (Latin American).
-          type: string
-          example: 'NCIT:C126531'
+          allOf:
+            - description: |
+                Ethnic background of the individual. Value from NCIT Race 
+                ontology (NCIT:C17049), e.g. NCIT:C126531 (Latin American).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'NCIT:C126531'
+                label: Latin American
         geographicOrigin:
-          description: |
-            Individual's country or region of origin (birthplace or residence 
-            place regardless of ethnic origin). Value from GAZ Geographic 
-            Location ontology (GAZ:00000448), e.g. GAZ:00002459 (United States 
-            of America).
-          type: string
-          example: 'GAZ:00002459'
+          allOf:
+            - description: |
+                Individual's country or region of origin (birthplace or 
+                residence place regardless of ethnic origin). Value from GAZ 
+                Geographic Location ontology (GAZ:00000448), e.g. GAZ:00002459 
+                (United States of America).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'GAZ:00002459'
+                label: United States of America
         diseases:
-          description: |
-            List of disease(s) been diagnosed to the individual, defined by 
-            disease ICD10 code, optionally other disease ontology ID(s), age of 
-            onset, stage and the presence of family history.
           type: array
           items:
             $ref: '#/components/schemas/Disease'

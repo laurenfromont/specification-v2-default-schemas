@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Variant Interpretation Default Schema
   description: >-
     Schema for variant interpretations to be used as default by the Beacon.
@@ -19,118 +19,121 @@ components:
   schemas:
     ClinicalRelevance: 
       description: |
-        Descriptor of clinical relevance as described to the variant, including 
-        the variant classification, the disease identifier and references of 
-        studies supporting the association.
+        Annotated effect(s) of variant on disease.
       type: object
+      required:
+        - diseaseId
       properties:
         diseaseId:
-          description: |
-            Reference to DiseaseId from Disease object from Individual schema, 
-            e.g. MONDO:0003582 (Hereditary breast ovarian cancer syndrome).
-          type: string
-          example: 'MONDO:0003582'
-        clinicalEffect: ##todo copy from variant annotation schema?
-          description: |
-            Clinical effect classification. Value from Sequence types and 
-            features ontology (SO) variant phenotype (SO:0001769), 
-            e.g. "disease associated variant" (SO:0001771).
-          type: string
-          enum:
-            - benign
-            - likely benign
-            - pathogenic
-            - likely pathogenic
-            - unknown
-          example: pathogenic
+          allOf:
+            - description: |
+                Value from ICD10 disease codes or ontology terms from disease 
+                ontologies such as HPO, OMIM, Orphanet, MONDO. e.g. lactose 
+                intolerance (ICD10CM:E73).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'ICD10CM:E73'
+                label: 'lactose intolerance'
+        clinicalEffect:
+          allOf:
+            - description: |
+                Clinical effect classification. Value from Sequence types and 
+                features ontology (SO) variant phenotype (SO:0001769), 
+                e.g. disease associated variant (SO:0001771).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'SO:0001771'
+                label: 'disease associated variant'
         alleleOrigin:
-          description: |
-            Ontology value for allele origin of variant in sample from the Variant Origin (SO:0001762). 
-            Categories are "somatic variant", "germline variant", "maternal variant", 
-            "paternal variant", "de novo variant", "pedigree specific variant", 
-            "population specific variant". Corresponds to Variant Inheritance in FHIR.
-          type: string
-          enum:
-            - 'somatic variant'
-            - 'germline variant'
-            - 'maternal variant'
-            - 'paternal variant'
-            - 'de novo variant'
-            - 'pedigree specific variant'
-            - 'population specific variant'
-          example: 'somatic variant'
+          allOf:
+            - description: |
+                Annotation(s)  on  allele origins in which  the  variant  has  
+                been  in  association  to  condition.  Value(s)  from  Sequence 
+                types and features ontology (SO) variant origin (SO:0001762) 
+                ontology, e.g. somatic variant (SO:0001777), germline 
+                variant (SO:0001778), de novo variant (SO:0001781).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'SO:0001777'
+                label: 'somatic variant'
         references:
           description: |
-            List of PUBMED ID(s) of studie(s) describing the variant-disease 
-            association.
+            List of publication identifier(s) Reference(s) to publication(s) 
+            describing association, as PMID(s), e.g. PMID:19793655.
           type: array
           items:
             type: string
           example: 
-            - 'PMC3623669'
-            - 'PMID:27153395'
-    phenotypicEffect:
+            - 'PMID:19793655”'
+    PhenotypicEffect:
       description: |
-        List of annotated effect on disease.
+        List of annotated effect(s) of variant on any phenotypic feature other 
+        than a disease.
       type: object
+      required:
+        - phenotypeId
       properties:
         phenotypeId:
-          description: |
-            Descriptor of phenotype found associated in this study
-          type: string
-          example: "" ##todo provide example
+          allOf:
+            - description: |
+                Descriptor of phenotype found associated. Value from Human 
+                Phenotype Ontology (HPO).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         phenotypeEffect:
-          description: |
-            Ontology value for phenotypic effect classification determined in this study
-          type: string
-          example: '' ##todo example?
+          allOf:
+            - description: |
+                Phenotypic effect classification. Value from Sequence types and 
+                features ontology (SO) variant phenotype (SO:0001769), e.g. 
+                benign variant (SO:0001770).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'SO:0001770'
+                label: 'benign variant'
         alleleOrigin:
-          description: |
-            Ontology value for allele origin of variant in sample from the Variant Origin (SO:0001762). 
-            Categories are "somatic variant", "germline variant", "maternal variant", 
-            "paternal variant", "de novo variant", "pedigree specific variant", 
-            "population specific variant". Corresponds to Variant Inheritance in FHIR.
-          type: string
-          enum:
-            - 'somatic variant'
-            - 'germline variant'
-            - 'maternal variant'
-            - 'paternal variant'
-            - 'de novo variant'
-            - 'pedigree specific variant'
-            - 'population specific variant'
-          example: 'somatic variant'
+          allOf:
+            -  description: |
+                Annotation(s)  on  allele origins in which the variant has been 
+                found in  association  to  phenotype.  Value(s)  from  Sequence 
+                types and features ontology (SO) variant origin (SO:0001762) 
+                ontology, e.g. somatic variant (SO:0001777), germline 
+                variant (SO:0001778), de novo variant (SO:0001781).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'SO:0001777'
+                label: 'somatic variant'
         references:
           description: |
-            List of PUBMED ID(s) of studie(s) describing the variant-disease 
-            association.
+            Reference(s) to publication(s) describing association, as PMID(s), 
+            e.g. “PMID:17024373”.
           type: array
           items:
             type: string
           example: 
-            - 'PMC3623669'
-            - 'PMID:27153395'
+            - 'PMID:17024373'
     VariantInterpretation:
       description: |
-        Todo
+        TBD
       type: object
+      required:
+        - variantId
+        - datasetId
       properties:
         variantId:
           description: |
-            Reference to Variant ID
+            Reference to Variant ID.
           type: string
         datasetId:
           description: |
-            Reference to dataset ID (DatasetDetails.datasetId)
+            Reference to dataset ID source of variant interpretation.
           type: string
-        clinicalRelevance:
+        clinicalRelevances:
           type: array
           items:
             $ref: '#/components/schemas/ClinicalRelevance'
-        phenotypicEffect:
+        phenotypicEffects:
           type: array
           items:
-            $ref: '#/components/schemas/phenotypicEffect'
+            $ref: '#/components/schemas/PhenotypicEffect'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 
@@ -140,4 +143,4 @@ components:
             additionalInfoKey1: 
               - additionalInfoValue1
               - additionalInfoValue2
-            additionalInfoKey2: additionalInfoValue
+            additionalInfoKey2: additionalInfoValu

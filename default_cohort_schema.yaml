@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Cohort Default Schema
   description: |
     Schema for cohorts to be used as default by the Beacon.
@@ -21,7 +21,8 @@ paths: {}
 components:
   schemas:
     Distribution:
-      description: TBD # TBD
+      description: |
+        TBD # TBD
       type: object
       properties:
         type:
@@ -43,24 +44,29 @@ components:
       properties:
         cohortLocations:
           allOf:
-          - description: Geographic location(s) in cohort inclusion/exclusion criteria
-          - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - description: |
+                Geographic location(s) in cohort inclusion/exclusion criteria
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         cohortGenders:
           allOf:
-          - description: Gender(s) in cohort inclusion/exclusion criteria
-          - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - description: |
+                Gender(s) in cohort inclusion/exclusion criteria
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         cohortEthnicities:
           allOf:
-          - description: Ethnicity(ies) in cohort inclusion/exclusion criteria.
-          - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - description: |
+                Ethnicity(ies) in cohort inclusion/exclusion criteria.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         cohortDiseases:
           allOf:
-          - description: Disease(s) in cohort inclusion/exclusion criteria.
-          - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - description: |
+                Disease(s) in cohort inclusion/exclusion criteria.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         cohortPhenotypicFeatures:
           allOf:
-          - description: Phenotypic feature(s) in cohort inclusion/exclusion criteria
-          - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - description: |
+                Phenotypic feature(s) in cohort inclusion/exclusion criteria
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
         cohortAgeRange:
           description: |
             Individual age range in cohort inclusion/exclusion criteria
@@ -68,14 +74,36 @@ components:
           properties:
             start:
               description: |
-                Min age accepted in cohort inclusion/exclusion criteria.
+                Min age accepted in cohort inclusion/exclusion criteria in 
+                ISO8601 duration format `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
               type: string
+              example: 'P16Y'
             end:
               description: |
-                Max age accepted in cohort inclusion/exclusion criteria.
+                Max age accepted in cohort inclusion/exclusion criteria in 
+                ISO8601 duration format `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
               type: string
+              example: 'P32Y'
+    Event:
+      type: object
+      properties:
+        availability:
+          description: |
+            Data availability.
+          type: boolean
+        availabilityCount:
+          description: |
+            Count of individuals with data available.
+          type: integer
+        distribution:
+          description: |
+            TBD 
+          type: array
+          items:
+            $ref: '#/components/schemas/Distribution'
     CollectionEvent:
-      description: TBD # TBD
+      description: |
+        TBD # TBD
       type: object
       properties:
         eventNum:
@@ -84,193 +112,160 @@ components:
           type: integer
         eventDate:
           description: |
-            Date of collection event/data point
+            Date of collection event/data point in ISO8601 datetime format.
           type: string
           format: datetime
         eventTimeline:
           description: |
-            Aggregated information of dates of visit/diagnostic/inclusion in study obtained from individual level 
-            info in database. Will coincide with collection event date for multi-time
+            Aggregated information of dates of visit/diagnostic/inclusion in 
+            study obtained from individual level info in database. Will 
+            coincide with collection event date for multi-time.
           type: object
           properties:
             start:
               description: |
-                Earliest date of visit
+                Earliest date of event in ISO8601 date format.
               type: string
-              format: datetime
+              format: date
             end:
               description: |
-                Latest date of visit
+                Latest date of event in ISO8601 date format.
               type: string
-              format: datetime
+              format: date
         eventSize:
           description: |
-            Count of individuals in cohort at data point (for ´user-defined´ cohorts, this is individuals
-            meeting criteria) obtained from individual level info in database.
+            Count of individuals in cohort at data point (for `user-defined`
+            cohorts, this is individuals meeting criteria) obtained from 
+            individual level info in database.
           type: integer
         eventCases:
           description: |
-            Count of cases
+            Count of cases.
           type: integer
         eventControls:
           description: |
-            Count of controls
+            Count of controls.
           type: integer
         eventLocations:
-          description: |
-            Aggregated information of geographic location obtained from individual level info in database.
-          type: object
-          properties:
-            availability:
-              description: data availability
-              type: boolean
-            availabilityCount:
-              description: count of individuals with data available
-              type: integer
-            distribution:
-              description: TBD # TBD
-              type: array
-              items:
-                $ref: '#/components/schemas/Distribution'
+          allOf:
+            - description: |
+                Aggregated information of geographic location obtained from 
+                individual level info in database.
+            - $ref: '#/components/schemas/Event'
         eventGenders:
-          description: Aggregated information of gender(s) obtained from individual level info in the database.
-          type: object
-          properties:
-            availability:
-              description: data availability
-              type: boolean
-            availabilityCount:
-              description: count of individuals with data available
-              type: integer
-            distribution:
-              description: TBD # TBD
-              type: array
-              items:
-                $ref: '#/components/schemas/Distribution'
+          allOf:
+            - description: |
+                Aggregated information of gender(s) obtained from individual level 
+                info in the database.
+            - $ref: '#/components/schemas/Event'
         eventEthnicities:
-          description: Aggregated information of ethnicity obtained from individual level info in database.
-          type: object
-          properties:
-            availability:
-              description: data availability
-              type: boolean
-            availabilityCount:
-              description: count of individuals with data available
-              type: integer
-            distribution:
-              description: TBD # TBD
-              type: array
-              items:
-                $ref: '#/components/schemas/Distribution'
+          allOf:
+            - description: |
+                Aggregated information of ethnicity obtained from individual level 
+                info in database.
+            - $ref: '#/components/schemas/Event'
         eventAgeRange:
-          description: Individual age range, obtained from individual level info in database.
+          description: |
+            Individual age range, obtained from individual level info in 
+            database.
           type: object
           properties:
             start:
-              description: min age in collection event
+              description: |
+                Min age in collection event in the ISO8601 duration format 
+                `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
               type: string
-              format: datetime
+              example: 'P45Y7M23D'
             end:
-              description: max age in collection event
+              description: |
+                Max age in collection event in the ISO8601 duration format 
+                `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
               type: string
-              format: datetime
+              example: 'P71Y1M2D'
         eventDiseases:
-          description: Aggregated information of disease/condition(s) obtained from individual level info in the database.
-          type: object
-          properties:
-            availability:
-              description: data availability
-              type: boolean
-            availabilityCount:
-              description: count of individuals with data available
-              type: integer
-            distribution:
-              description: TBD # TBD
-              type: array
-              items:
-                $ref: '#/components/schemas/Distribution'
+          allOf:
+            - description: |
+                Aggregated information of disease/condition(s) obtained from 
+                individual level info in the database.
+            - $ref: '#/components/schemas/Event'
         eventPhenotypes:
-          description: Aggregated information of phenotype(s) obtained from individual level info in the database.
-          type: object
-          properties:
-            availability:
-              description: data availability
-              type: boolean
-            availabilityCount:
-              description: count of individuals with data available
-              type: integer
-            distribution:
-              description: TBD # TBD
-              type: array
-              items:
-                $ref: '#/components/schemas/Distribution'
+          allOf:
+            - description: |
+                Aggregated information of phenotype(s) obtained from individual 
+                level info in the database.
+            - $ref: '#/components/schemas/Event'
         eventDataTypes:
-          description: Aggregated data type information available for each cohort data type as declared in cohort_data types, and obtained from individual level info.
-          type: object
-          properties:
-            availability:
-              description: data availability
-              type: boolean
-            availabilityCount:
-              description: count of individuals with data available
-              type: integer
-            distribution:
-              description: TBD # TBD
-              type: array
-              items:
-                $ref: '#/components/schemas/Distribution'
+            - description: |
+                Aggregated data type information available for each cohort data type 
+                as declared in cohort_data types, and obtained from individual level info.
+            - $ref: '#/components/schemas/Event'
     Cohort:
       description: |
-        
+        Todo
       type: object
       properties:
         cohortId:
           description: |
-            Cohort identifier. For ´study-defined´ or ´beacon-defined´cohorts this field is set by the implementer.
-            For ´user-defined´ this unique identifier could be generated upon the query that defined the cohort,
-            but could be later edited by the user.
+            Cohort identifier. For ´study-defined´ or ´beacon-defined´cohorts 
+            this field is set by the implementer. For ´user-defined´ this 
+            unique identifier could be generated upon the query that defined 
+            the cohort, but could be later edited by the user.
           type: string
         cohortType:
           description: |
-            Cohort type by its definition. If a cohort is declared ´study-defined´ or ´beacon-defined´, 
-            criteria are to be entered in `cohort_inclusion_criteria`; if a cohort is declared ‘user-defined'
-            `cohort_inclusion_criteria` could be automatically populated from the parameters used to perform the query.
+            Cohort type by its definition. If a cohort is declared 
+            `study-defined` or `beacon-defined`, criteria are to be entered in 
+            `cohort_inclusion_criteria`; if a cohort is declared `user-defined`
+            `cohort_inclusion_criteria` could be automatically populated from 
+            the parameters used to perform the query.
           type: string
           enum:
             - study-defined
             - beacon-defined
             - user-defined
         cohortDesign:
-          description: Cohort type by its design.
+          description: |
+            Cohort type by its design.
           type: string
           enum:
             - TBD # TBD
         cohortName:
           description: |
-            For ´user-defined´ this field could be generated upon the query, e.g. a value that is a concatenation
-            or some representation of the user query.
+            For `user-defined` this field could be generated upon the query, 
+            e.g. a value that is a concatenation or some representation of the 
+            user query.
           type: string
         cohortInclusionCriteria:
           allOf:
-          - description: None or any number of these criteria can be filled. (For ´beacon-defined´cohorts, cohorts matching the whole dataset wont apply criteria for if cohorts are subsets of Datasets the criteria used to defined them can be added in these fields).
-          - $ref: '#/components/schemas/Criteria'
+            - description: |
+                None or any number of these criteria can be filled. For 
+                `beacon-defined` cohorts, cohorts matching the whole dataset 
+                won't apply criteria for if cohorts are subsets of Datasets 
+                the criteria used to defined them can be added in these 
+                fields.
+            - $ref: '#/components/schemas/Criteria'
         cohortExclusionCriteria:
           allOf:
-          - description: Exclusion criteria.
-          - $ref: '#/components/schemas/Criteria'
+            - description: |
+                Exclusion criteria.
+            - $ref: '#/components/schemas/Criteria'
         cohortLicense:
-          description: TBD # TBD
+          description: |
+            TBD
           type: string
         cohortContact:
-          description: TBD # TBD
+          description: |
+            TBD
           type: string
         cohortRights:
-          description: TBD # TBD
+          description: |
+            TBD
           type: object
         cohortSize:
           description: |
-            Count of unique Individuals in cohort (individuals meeting criteria for ´user-defined´ cohorts).
-            If not previously known, it could be calculated by counting the individuals in the cohort.
+            Count of unique Individuals in cohort (individuals meeting 
+            criteria for `user-defined` cohorts). If not previously known, it 
+            could be calculated by counting the individuals in the cohort.
           type: integer
         cohortDataTypes:
           description: |
@@ -281,15 +276,16 @@ components:
             properties:
               dataType:
                 allOf:
-                - description: |
-                    Data types included in cohort.
-                - $ref: 'common.yaml#/components/schemas/OntologyTerm'
-                - example:
-                    id: GECKO:0000032
-                    label: Genomic data
+                  - description: |
+                      Data types included in cohort.
+                  - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+                  - example:
+                      id: GECKO:0000032
+                      label: Genomic data
               num:
                 description: |
-                  Paired to id field, number of individuals with this data type in the cohort.
+                  Paired to id field, number of individuals with this data 
+                  type in the cohort.
                 type: integer
                 example: 221
         collectionEvents:

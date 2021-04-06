@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Dataset Default Schema
   description: >-
     Schema for datasets to be used as default by the Beacon.
@@ -17,7 +17,7 @@ externalDocs:
 paths: {}
 components:
   schemas:
-    DatasetDetail:
+    Dataset:
       description: |
         Description of the dataset.
       type: object

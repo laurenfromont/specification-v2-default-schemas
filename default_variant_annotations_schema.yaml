@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Variant Annotation Default Schema
   description: >-
     Schema for variant annotations to be used as default by the Beacon.
@@ -19,22 +19,23 @@ components:
   schemas:
     GenomicFeature:
       description: |
-        Genomic feature(s) affected by the variant
+        Genomic feature(s) affected by the variant.
       type: object
       properties:
         class:
+          allOf:
+            - description: |
+                Class of feature affected by the variant. Value from ENSGLOSS 
+                Biotype (ENSGLOSSARY:0000025) ontology, e.g. protein coding gene, 
+                non-coding RNA, long non-coding RNA.
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'ENSGLOSSARY:0000026'
+                label: 'protein coding'
+        featureId:
           description: |
-            Class of genomic region affected by the variant
-          type: string
-          enum:
-            - gene 
-            - protein coding transcript 
-            - untranslated region 
-            - non-coding transcript
-          example: "gene"
-        featureID:
-          description: |
-            ID /accession/name of genomic region affected by the variant, matching class in `class`
+            ID/accession/name of genomic region affected by the variant, 
+            matching class in `class`.
           type: string
           example:
             - 'TP53'
@@ -42,16 +43,19 @@ components:
     VariantAnnotation:
       description: TBD # TBD
       type: object
+      required:
+        - variantId
       properties:
         variantId:
           description: |
             Reference to Variant ID.
           type: string
-        variantAlternativeId:
+        variantAlternativeIds:
           description: |
-            List of cross-referencing ID(s) (CURIE(s)) for the variant in the original
-            databases or variant-level (aggregated) databases for previously described
-            variants (e.g. clinVarId, ClinGen, COSMIC), e.g. "VCV000055583.1", "CA003602".
+            List of cross-referencing ID(s) (CURIE(s)) for the variant in the 
+            original databases or variant-level (aggregated) databases for 
+            previously described variants (e.g. clinVarId, ClinGen, COSMIC), 
+            e.g. VCV000055583.1, CA003602.
           type: array
           items:
             type: string
@@ -61,11 +65,11 @@ components:
             - 'VCV000055583.1'
         genomicHGVSId:
           description: |
-            HGVSId descriptor at genomic level, referred to genome assembly 
-            defined in Variant Identification.
+            HGVSId descriptor at genomic level (recommended, referred to genome 
+            assembly defined in Variant Identification).
           type: string
           example: 'NC_000011.9:g.134086816T>C'
-        transcriptHGVSId:
+        transcriptHGVSIds:
           description: |
             List of HGVSId descriptor(s) at transcript level.
           type: array
@@ -76,57 +80,51 @@ components:
         proteinHGVSIds:
           description: |
             List of HGVSId descriptor(s) at protein level (for protein-altering 
-            variants).
+            variants), e.g. NP 009225.1:p.Glu1817Ter or LRG 199p1:p.Val25Gly 
+            (preferred).
           type: array
           items:
             type: string
           example: 
             - 'NP_009225.1:p.Glu1817Ter'
-            - 'LRG 199p1:p.Val25Gly (preferred)'
+            - 'LRG 199p1:p.Val25Gly'
         genomicRegions:
           description: |
             List of classification(s) of the variant according to the genomic 
-            region affected (all that apply, relative to each feature affected). Value from Ensembl
-            Glossary (ENSGLOSS)
+            region affected (all that apply, relative to each feature affected). 
+            Value from Ensembl Glossary (ENSGLOSS).
           type: array
           items:
-            type: string
-          example: 
-            - 'intergenic'
-            - '5UTR'
-            - '3UTR'
-            - 'coding'
+            allOf:
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+              - example: 
+                  id: 'ENSGLOSSARY:0000159'
+                  label: '3UTR'
         genomicFeatures:
           description: |
-            List of Genomic feature(s) affected by the variant.
+            List of genomic feature(s) affected by the variant.
           type: array
           items:
             $ref: '#/components/schemas/GenomicFeature'
-        annotationToolVersion:
+        molecularEffects:
           description: |
-            Tool used for annotation and prediction of variant effects 
-          type: string
-          example: 'SnpEffVersion=4.3t (build 2017-11-24 1018)'
-        molecularEffect:
-          description: |
-            List of predicted effect at nucleotide level
+            List of predicted effect at nucleotide level for protein affecting 
+            variants. Value from Sequence ontology (SO) coding sequence variant 
+            (SO:0001580) ontology, e.g. synonymous variant (SO:0001819), 
+            nonsynonymous variant (SO:0001992), and classifications therein, 
+            such as stop gained (SO:0001587), missense variant (SO:0001583), 
+            inframe indel (SO:0001820).
           type: array
           items:
-            type: string
-          example:
-            - 'STOP_GAINED'
-        molecularConsequence:
-          description: |
-            List of Predicted effect at protein level for protein affecting variants (Ontology label)
-          type: array
-          items:
-            type: string
-          example: 
-            - 'nonsense'
-            - 'missense'       
+            allOf:
+              - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+              - example:
+                  id: 'SO:0001587'
+                  label: 'stop gained'
         aminoacidChange:
           description: |
-            Lisf of change(s) at aminoacid level for protein affecting variants 
+            Lisf of changes at aminoacid level for protein affecting missense 
+            variants. 
           type: array
           items:
             type: string

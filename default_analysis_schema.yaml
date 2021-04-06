@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Analysis Default Schema
   description: >-
     Schema for analyses to be used as default by the Beacon.
@@ -21,9 +21,12 @@ components:
       description: |
         Todo
       type: object
+      required:
+        - analysisId
       properties:
         analysisId:
-          description: Analysis reference ID (external accession or internal ID)
+          description: |
+            Analysis reference ID (external accession or internal ID).
           type: string
         runId:
           description: |
@@ -31,28 +34,30 @@ components:
           type: string
           example: 'SRR10903401'
         analysisDate:
-          description: Date at which analysis was performed.
+          description: |
+            Date at which analysis was performed, in the ISO8601 date format.
           type: string
           format: date
+          example: '2020-01-10'
         pipelineName:
           description: |
-            Analysis pipeline and version if a standardized pipeline was used
+            Analysis pipeline and version if a standardized pipeline was used.
           type: string
+          example: 'Isaac Whole Genome Sequencing; version 3.0.0.0'
         pipelineRef:
           description: |
-            Link to Analysis pipeline resource
+            Link to Analysis pipeline resource.
           type: string
         aligner:
           description: |
-            Ontology value for Mapping/Alignment software
+            Mapping/Alignment software.
           type: string
           example: 'bwa-0.7.8'
         variantCaller:
           description: |
-            Ontology value Variant calling software / pipeline
+            Variant calling software/pipeline.
           type: string
-          example:
-            - 'GATK4.0'
+          example: 'GATK4.0'
         info:
           description: |
             Additional unspecified metadata about the dataset response or its 

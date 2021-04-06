@@ -1,7 +1,7 @@
 openapi: 3.0.2
 servers: []
 info:
-  version: "draft.3"
+  version: "draft.3.1"
   title: GA4GH Beacon Biosample Default Schema
   description: >-
     Schema for biosamples to be used as default by the Beacon.
@@ -24,32 +24,41 @@ components:
       type: object
       properties:
         tumorProgression:
-          description: |
-            Ontology value from Neoplasm by Special Category ontology 
-            (NCIT:C7062). Tumor progression category indicating primary, 
-            metastatic or recurrent progression, e.g. NCIT:C84509 (Primary 
-            Malignant Neoplasm).
-          type: string
-          example: 'NCIT:C84509'
+          allOf:
+            - description: |
+                Descriptor of tumor progres- sion. Value from Neoplasm by 
+                Special Category ontology (NCIT:C7062). Tumor progression 
+                category indicating primary, metastatic or recurrent progression 
+                e.g."Primary Malignant Neoplasm" (NCIT:C84509).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'NCIT:C84509'
+                label: 'Primary Malignant Neoplasm'
         tumorGrade:
-          description: |
-            Ontology value from Tumor Grading Characteristic ontology (Mondo 
-            Disease Ontology MONDO:0024488) General tumor grading.
-          type: string
-          example: 'MONDO:0024492'
+          allOf:
+            - description: |
+                Tumor grading. Value from Tumor Grading Characteristic ontology 
+                (Mondo Disease Ontology MONDO:0024488), e.g. “Grade 3” 
+                (MONDO:0024493)
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'MONDO:0024492'
+                label: Grade 3
     Biosample:
       description: |
         Todo
       type: object
+      required:
+        - biosampleId
       properties:
         biosampleId:
           description: |
-            Biosample identifier (external accession or internal ID).
+            Biosample reference ID (external accession or internal ID).
           type: string
           example: 'S0001'
         individualId:
           description: |
-            Reference to individual ID (Individual.individualId).
+            Reference to individual ID.
           type: string
           example: 'P0001'
         description:
@@ -59,51 +68,70 @@ components:
           type: string
           example: 'Some free text'
         biosampleStatus:
-          description: |
-            Ontology value from Experimental Factor Ontology (EFO) Material 
-            Sample ontology (OBI:0000747). 
-
-            Classification of the sample in abnormal sample (EFO:0009655) or 
-            reference sample (EFO:0009654).
-          type: string
-          enum:
-            - 'EFO:0009655'
-            - 'EFO:0009654'
-          example: 'EFO:0009655'
+          allOf:
+            - description: |
+                Classification of biosample based on their role in study. Value 
+                from Experimental Factor Ontology (EFO) Material Sample ontology 
+                (OBI:0000747) Classification of the sample in "abnormal sample"
+                (EFO:0009655) or "reference sample" (EFO:0009654).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example:
+                id: 'EFO:0009655'
+                label: abnormal sample
         collectionDate:
           description: |
-            Date of biosample collection in the ISO8601 
-            duration format `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
+            Date of biosample collection in the ISO8601 date format.
           type: string
-          example: 'P32Y6M1D'
+          fromat: date
+          example: '2017-07-23'
         individualAgeAtCollection:
           description: |
             Individual's age at the time of sample collection 
             in the ISO8601 duration format `P[n]Y[n]M[n]DT[n]H[n]M[n]S`.
           type: string
           example: 'P32Y6M1D'
-        sampleOriginType:
+        sampleOriginDescriptor:
           description: |
-            Category of sample origin. Value from Ontology for Biomedical Investigations (OBI)
-            material entity (BFO:0000040) ontology, e.g. "specimen from organism" (OBI:0001479),
-            "xenograft" (OBI:0100058), "cell culture" (OBI:0001876), "cell specimen" (OBI:0001468),
-            "environmental swab specimen" (OBI:0002613).
-          type: string
-        sampleOriginDetail:
-          description: |
-            Specific instance of sample origin matching the category set in sampleOriginType.
-            Value from Uber-anatomy ontology (UBERON) or BRENDA tissue / enzyme source (BTO),
-            Ontology for Biomedical Investigations (OBI) or Cell Line Ontology (CLO), e.g. 
-            "cerebellar vermis" (UBERON:0004720), "HEK-293T cell" (BTO:0002181), 
-            "nasopharyngeal swab specimen" (OBI:0002606), "cerebrospinal fluid specimen" (OBI:0002502).
-          type: string
+            List of descriptors of origin of biosample.
+          type: object
+          properties:
+            sampleOriginType:
+              allOf:
+                - description: |
+                    Category of sample origin. Value from Ontology for 
+                    Biomedical Investigations (OBI) material entity 
+                    (BFO:0000040) ontology, e.g. "specimen from organism" 
+                    (OBI:0001479), "xenograft" (OBI:0100058), "cell culture" 
+                    (OBI:0001876), "cell specimen" (OBI:0001468), "environmental 
+                    swab specimen" (OBI:0002613).
+                 - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+                 - example:
+                    id: 'OBI:0001479'
+                    label: 'specimen from organism'
+            sampleOriginDetail:
+              allOf:
+                - description: |
+                  Specific instance of sample origin matching the category set 
+                  in sampleOriginType. Value from Uber-anatomy ontology (UBERON) 
+                  or BRENDA tissue / enzyme source (BTO), Ontology for 
+                  Biomedical Investigations (OBI) or Cell Line Ontology (CLO), 
+                  e.g. "cerebellar vermis" (UBERON:0004720), "HEK-293T cell" 
+                  (BTO:0002181), "nasopharyngeal swab specimen" (OBI:0002606), 
+                  "cerebrospinal fluid specimen" (OBI:0002502).
+                - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+                - example:
+                    id: 'UBERON:0004720'
+                    label: 'cerebellar vermis'
         obtentionProcedure:
-          description: |
-            Ontology value from NCIT Intervention or Procedure ontology 
-            describing the procedure for sample obtention, e.g. NCIT:C15189 
-            (biopsy).
-          type: string
-          example: 'NCIT:C15189'
+          allOf:
+            - description: |
+                Ontology value from NCIT Intervention or Procedure ontology 
+                describing the procedure for sample obtention, e.g. NCIT:C15189 
+                (biopsy).
+            - $ref: 'common.yaml#/components/schemas/OntologyTerm'
+            - example: 
+                id: 'NCIT:C15189'
+                label: 'biopsy'
         cancerFeatures:
           $ref: '#/components/schemas/CancerFeature'
         info:
