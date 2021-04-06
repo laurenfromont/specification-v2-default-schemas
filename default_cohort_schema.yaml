@@ -195,6 +195,7 @@ components:
                 level info in the database.
             - $ref: '#/components/schemas/Event'
         eventDataTypes:
+          allOf:
             - description: |
                 Aggregated data type information available for each cohort data type 
                 as declared in cohort_data types, and obtained from individual level info.
