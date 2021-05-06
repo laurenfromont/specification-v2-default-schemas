@@ -5,4 +5,4 @@
 
 This OpenAPI definition describes thoroughly the schemas to be used as default by [Beacon v2.0](https://github.com/ga4gh-beacon/specification-v2).
 
-Current version is DRAFT3.
+Current version is [DRAFT3](https://drive.google.com/file/d/171u8B-DXX58MgkEIRtoiV9lX6kmezVTW/view?usp=sharing).
